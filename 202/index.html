@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>รายการงานโฟลเดอร์ 202 - นิซัยนูน</title>
+    <title>รายการงานโฟลเดอร์ - นิซัยนูน อาเย๊าะแซ</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 30px; background-color: #f4f6f9; }
         .container { max-width: 750px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
@@ -14,42 +14,67 @@
         li { background: #f8f9fa; margin: 8px 0; padding: 12px 15px; border-radius: 6px; border-left: 4px solid #007bff; display: flex; justify-content: space-between; align-items: center; }
         a { text-decoration: none; color: #007bff; font-weight: bold; }
         a:hover { text-decoration: underline; }
+        
+        /* สไตล์สำหรับโซนแสดงรูปภาพ */
+        .image-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
+        .image-card { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 10px; text-align: center; }
+        .image-card img { width: 100%; height: 140px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; transition: transform 0.2s; }
+        .image-card img:hover { transform: scale(1.03); }
+        .image-card p { margin: 5px 0 0; font-size: 14px; font-weight: bold; color: #333; }
+        
         .btn-back { display: inline-block; margin-top: 30px; color: #555; text-decoration: none; font-weight: bold; background: #e9ecef; padding: 10px 20px; border-radius: 6px; }
         .btn-back:hover { background: #dee2e6; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📁 งานวิชาคอมพิวเตอร์ (โฟลเดอร์ 202)</h1>
+        <h1>📁 งานวิชาคอมพิวเตอร์</h1>
         <div class="student-info">
-            <p><strong>ผู้จัดทำ:</strong> นางสาวนิซัยนูน อาเย๊าะแซ (รหัสนักศึกษา 6820210576)</p>
+            <p><strong>ผู้จัดทำ:</strong> นางสาวนิซัยนูน อาเย๊าะแซ</p>
         </div>
 
+        <!-- หมวดหมู่ที่ 1: หน้าเว็บ HTML -->
         <div class="section-title">🌐 หน้าเว็บ / โปรเจกต์ HTML</div>
         <ul>
-            <li><span>🗺️ หน้าแผนที่ (mapnung.html)</span> <a href="mapnung.html" target="_blank">เปิดดูหน้าเว็บ</a>[cite: 2]</li>
-            <li><span>🗺️ หน้าแผนที่ (maptest.html)</span> <a href="maptest.html" target="_blank">เปิดดูหน้าเว็บ</a>[cite: 2]</li>
+            <li><span>🌐 หน้าเว็บ Index</span> <a href="index.html" target="_blank">เปิดดูหน้าเว็บ</a></li>
+            <li><span>🗺️ หน้าแผนที่ (mapnung.html)</span> <a href="mapnung.html" target="_blank">เปิดดูหน้าเว็บ</a></li>
+            <li><span>🗺️ หน้าแผนที่ (maptest.html)</span> <a href="maptest.html" target="_blank">เปิดดูหน้าเว็บ</a></li>
         </ul>
 
-        <div class="section-title">📄 เอกสาร Word & สื่อการสอน</div>
+        <!-- หมวดหมู่ที่ 2: รูปภาพประกอบ / ผลงานภาพ -->
+        <div class="section-title">🖼️ รูปภาพผลงาน (Images)</div>
+        <div class="image-grid">
+            <div class="image-card">
+                <a href="img/" target="_blank">
+                    <img src="img/image1.jpg" alt="โฟลเดอร์รูปภาพ img" onerror="this.src='https://via.placeholder.com/200x140?text=Folder+img'">
+                </a>
+                <p>📷 โฟลเดอร์รูปภาพ (img)</p>
+                <a href="img/" target="_blank" style="font-size:12px;">เปิดดูโฟลเดอร์ภาพ</a>
+            </div>
+        </div>
+
+        <!-- หมวดหมู่ที่ 3: เอกสาร Word -->
+        <div class="section-title">📄 เอกสาร Word</div>
         <ul>
-            <li><span>📄 Sainun Word</span> <a href="sainun_word.docx" target="_blank">ดาวน์โหลดไฟล์ (.docx)</a>[cite: 2]</li>
-            <li><span>📄 จดหมายราชการ</span> <a href="จดหมายราชการ.docx" target="_blank">ดาวน์โหลดไฟล์ (.docx)</a>[cite: 2]</li>
+            <li><span>📄 Sainun Word</span> <a href="sainun_word.docx">ดาวน์โหลดไฟล์ (.docx)</a></li>
+            <li><span>📄 จดหมายราชการ</span> <a href="จดหมายราชการ.docx">ดาวน์โหลดไฟล์ (.docx)</a></li>
         </ul>
 
+        <!-- หมวดหมู่ที่ 4: งานตาราง Excel -->
         <div class="section-title">📊 งานตารางข้อมูล Excel</div>
         <ul>
-            <li><span>📊 Sainun Excel</span> <a href="sainun_Excel..xlsx" target="_blank">ดาวน์โหลดไฟล์ (.xlsx)</a>[cite: 2]</li>
-            <li><span>📊 สถิติประชากรรายอายุ</span> <a href="สถิติประชากรรายอายุ.xlsx" target="_blank">ดาวน์โหลดไฟล์ (.xlsx)</a>[cite: 2]</li>
+            <li><span>📊 Sainun Excel</span> <a href="sainun_Excel..xlsx">ดาวน์โหลดไฟล์ (.xlsx)</a></li>
+            <li><span>📊 สถิติประชากรรายอายุ</span> <a href="สถิติประชากรรายอายุ.xlsx">ดาวน์โหลดไฟล์ (.xlsx)</a></li>
         </ul>
 
+        <!-- หมวดหมู่ที่ 5: งานนำเสนอ PowerPoint -->
         <div class="section-title">📊 งานนำเสนอ PowerPoint</div>
         <ul>
-            <li><span>📄 Flowchart PowerPoint</span> <a href="Flowchart.pptx" target="_blank">ดาวน์โหลดไฟล์ (.pptx)</a>[cite: 2]</li>
+            <li><span>สไลด์ผัง Flowchart</span> <a href="Flowchart.pptx">ดาวน์โหลดไฟล์ (.pptx)</a></li>
         </ul>
 
         <div style="text-align: center;">
-            <a href="nisainunindex.html" class="btn-back">⬅️ ย้อนกลับไปหน้าหลักส่งงาน</a>[cite: 2]
+            <a href="nisainunindex.html" class="btn-back">⬅️ ย้อนกลับไปหน้าหลัก (nisainunindex.html)</a>
         </div>
     </div>
 </body>
