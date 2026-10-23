@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>รู้จักรอยเลื่อนมีพลัง 16 กลุ่ม บนผืนแผ่นดินไทย</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1b2b38; --ink2:#43555f; --muted:#7b8b93; --line:#e4eaee;
+  --accent:#ef5a20; --accent-d:#cf4413; --accent-soft:#fdeee7;
+  --high:#d6372c; --mid:#e8913a; --blue:#2c7cb0;
+  --hdr:68px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--hdr) + 12px);background:#fff}
+body{font-family:'IBM Plex Sans Thai',sans-serif;background:#fff;color:var(--ink);line-height:1.78;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+
+/* ---------- แถบเมนู ---------- */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:900;height:var(--hdr);
+  background:rgba(255,255,255,.96);backdrop-filter:blur(12px) saturate(1.4);
+  border-bottom:1px solid var(--line);transition:box-shadow .25s}
+.topbar.scrolled{box-shadow:0 4px 22px rgba(27,43,56,.09)}
+.topbar-in{max-width:1140px;margin:0 auto;height:100%;padding:0 20px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;min-width:0}
+.tb-brand{display:flex;align-items:center;gap:11px;flex:0 0 auto}
+.tb-mk{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;
+  background:linear-gradient(140deg,var(--accent),var(--accent-d));box-shadow:0 4px 14px rgba(239,90,32,.3)}
+.tb-mk svg{width:25px;height:25px}
+.tb-txt b{display:block;font-size:.95rem;font-weight:700;line-height:1.25;color:var(--ink)}
+.tb-txt span{display:block;font-size:.6rem;letter-spacing:2.1px;color:var(--accent);text-transform:uppercase;font-weight:500}
+.tb-nav{display:flex;gap:2px;align-items:center;border-left:1px solid var(--line);
+  padding-left:12px;margin-left:8px;min-width:0;overflow-x:auto;overflow-y:hidden;
+  -ms-overflow-style:none;scrollbar-width:none}
+.tb-nav::-webkit-scrollbar{display:none}
+.tb-nav a{font-size:.83rem;padding:8px 11px;border-radius:9px;color:#4e606a;white-space:nowrap;
+  transition:.2s;font-weight:500;flex:0 0 auto}
+.tb-nav a:hover{background:var(--accent-soft);color:var(--accent-d)}
+.tb-nav a.active{color:var(--accent-d);background:var(--accent-soft)}
+@media(max-width:820px){
+  .topbar-in{padding:0 14px;gap:8px}
+  .tb-txt span{display:none}
+  .tb-txt b{font-size:.86rem;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tb-nav{padding-left:8px;margin-left:0;gap:0}
+  .tb-nav a{font-size:.76rem;padding:7px 9px}
+}
+@media(max-width:560px){
+  .tb-mk{width:36px;height:36px;border-radius:11px}
+  .tb-mk svg{width:21px;height:21px}
+  .tb-txt b{font-size:.8rem;max-width:118px}
+  .tb-nav a{font-size:.72rem;padding:6px 8px}
+}
+
+/* ---------- หน้าปก ---------- */
+.cover{position:relative;margin-top:var(--hdr);min-height:calc(100vh - var(--hdr));
+  display:flex;align-items:center;padding:54px 0 62px;background:#ffffff}
+.cover-grid{position:relative;z-index:3;width:100%;display:grid;
+  grid-template-columns:1.02fr .98fr;gap:46px;align-items:center}
+.cover-in{max-width:600px}
+.cbadge{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:600;letter-spacing:1.6px;
+  color:var(--accent-d);background:var(--accent-soft);padding:7px 16px;border-radius:99px;margin-bottom:22px}
+.cbadge i{width:6px;height:6px;border-radius:50%;background:var(--accent);display:block}
+.cover h1{position:relative;display:inline-block;font-size:clamp(1.95rem,5.2vw,3.4rem);
+  font-weight:700;line-height:1.18;letter-spacing:-1px;color:var(--ink);
+  padding:18px 38px 20px 24px;margin:0 0 18px -24px}
+.cover h1::before{content:"";position:absolute;inset:-6px -26px -14px -16px;z-index:-1;border-radius:30px;
+  background:linear-gradient(118deg,rgba(238,245,250,.98) 0%,rgba(238,245,250,.88) 40%,rgba(238,245,250,.55) 70%,rgba(238,245,250,.12) 100%);
+  -webkit-mask-image:radial-gradient(142% 134% at 30% 46%,#000 38%,rgba(0,0,0,.72) 64%,rgba(0,0,0,.26) 84%,transparent 100%);
+          mask-image:radial-gradient(142% 134% at 30% 46%,#000 38%,rgba(0,0,0,.72) 64%,rgba(0,0,0,.26) 84%,transparent 100%);
+  filter:blur(5px)}
+.cover h1 em{font-style:normal;color:var(--accent)}
+.clead{font-size:clamp(.9rem,2vw,1.02rem);color:#4d5f69;max-width:520px;margin-bottom:22px;line-height:1.9}
+.clead b{color:var(--ink);font-weight:600}
+.cchips{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:24px}
+.cchips span{font-size:.77rem;color:#3f5561;background:#fff;border:1px solid var(--line);
+  padding:7px 15px;border-radius:99px;box-shadow:0 2px 10px rgba(27,43,56,.05)}
+.cchips span b{color:var(--accent-d);font-weight:700}
+.crule{width:64px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--accent),#f8b98f)}
+.cover-art{position:relative;justify-self:center;width:100%;max-width:520px}
+.cover-art .halo{position:absolute;inset:-11% -9%;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(closest-side,rgba(239,90,32,.07),rgba(44,124,176,.08) 55%,transparent 78%)}
+.photo-frame{position:relative;width:100%;overflow:hidden;background:#fff;
+  -webkit-mask-image:radial-gradient(122% 118% at 50% 48%,#000 36%,rgba(0,0,0,.93) 54%,rgba(0,0,0,.58) 73%,rgba(0,0,0,.16) 88%,transparent 100%);
+          mask-image:radial-gradient(122% 118% at 50% 48%,#000 36%,rgba(0,0,0,.93) 54%,rgba(0,0,0,.58) 73%,rgba(0,0,0,.16) 88%,transparent 100%)}
+.photo-frame img{width:100%;height:auto;display:block}
+.photo-frame .holder{width:100%;aspect-ratio:4/3;display:grid;place-items:center;text-align:center;
+  padding:28px;background:#fbfcfd;color:#9aa8b0;font-size:.82rem;line-height:1.9}
+.photo-frame .holder b{color:var(--accent-d);font-weight:600}
+.cover-art .cap{position:relative;z-index:5;text-align:right;margin-top:10px}
+.cover-art .cap b{display:block;font-size:.78rem;font-weight:600;color:var(--ink);margin-bottom:2px}
+.cover-art .cap span{font-size:.69rem;color:var(--muted);line-height:1.7}
+@media(max-width:960px){
+  .cover-grid{grid-template-columns:1fr;gap:32px}
+  .cover-in{max-width:none}
+  .cover-art{max-width:540px}
+  .cover-art .cap{text-align:left}
+}
+
+/* ---------- ส่วนกลาง ---------- */
+section.blk{padding:50px 0}
+.box{border-radius:24px;padding:36px 32px;border:1px solid rgba(0,0,0,.045);box-shadow:0 6px 26px rgba(27,43,56,.05)}
+.bg-cream{background:#fdf9f3}.bg-sky{background:#eff6fb}.bg-mint{background:#f0f8f4}
+.bg-sand{background:#faf4e9}.bg-lilac{background:#f5f3fb}.bg-peach{background:#fdf3ee}
+.lbl{display:inline-flex;align-items:center;gap:8px;font-size:.69rem;font-weight:700;letter-spacing:1.7px;
+  text-transform:uppercase;color:var(--accent-d);background:var(--accent-soft);padding:5px 13px;border-radius:99px;margin-bottom:11px}
+.hrow{display:flex;align-items:center;gap:14px;margin-bottom:6px;flex-wrap:wrap}
+.num{width:44px;height:44px;border-radius:13px;flex:0 0 auto;display:grid;place-items:center;background:#fff;
+  border:1px solid var(--line);font-weight:700;color:var(--accent);font-size:1.05rem;box-shadow:0 3px 10px rgba(27,43,56,.06)}
+h2.t{font-size:clamp(1.36rem,3vw,1.88rem);font-weight:700;line-height:1.3}
+h2.t::after{content:"";display:block;width:52px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--accent),#f8b98f);margin-top:10px}
+.sub{color:var(--muted);max-width:780px;margin-bottom:26px;font-size:.95rem}
+.grow{display:flex;flex-direction:column;gap:14px}
+.grow .card{width:100%}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px;transition:.2s}
+.card:hover{box-shadow:0 8px 24px rgba(27,43,56,.08)}
+.card h4{font-size:.97rem;margin-bottom:8px;display:flex;align-items:center;gap:10px;font-weight:600;line-height:1.45}
+.card p{font-size:.87rem;color:var(--ink2);margin:0}
+.idot{width:36px;height:36px;border-radius:11px;flex:0 0 auto;display:grid;place-items:center;font-size:1rem;color:#fff;background:var(--accent)}
+.idot.b{background:var(--blue)}.idot.g{background:#3f8f57}.idot.a{background:var(--mid)}
+.callout{background:#fff;border-left:4px solid var(--accent);border-radius:0 13px 13px 0;padding:16px 19px;margin-top:20px;
+  font-size:.89rem;color:var(--ink2);box-shadow:0 3px 12px rgba(27,43,56,.05)}
+.callout b{color:var(--accent-d)}
+.aware-wrap{display:flex;justify-content:center}
+.aware{max-width:860px;width:100%;background:#fff;border:1px solid rgba(239,90,32,.2);border-radius:18px;padding:34px 38px;
+  box-shadow:0 4px 18px rgba(27,43,56,.05)}
+.aware p{font-size:clamp(.98rem,2.15vw,1.1rem);line-height:2.1;color:#3a4c56}
+.aware p b{color:var(--accent-d);font-weight:600}
+@media(max-width:640px){.aware{padding:26px 22px;border-radius:15px}}
+.flowlist{list-style:none;counter-reset:fl;display:grid;gap:12px}
+.flowlist li{counter-increment:fl;position:relative;padding:14px 18px 14px 62px;background:#fff;
+  border:1px solid var(--line);border-radius:14px;font-size:.88rem;color:var(--ink2)}
+.flowlist li::before{content:counter(fl);position:absolute;left:16px;top:14px;width:30px;height:30px;border-radius:10px;
+  display:grid;place-items:center;background:linear-gradient(140deg,var(--accent),var(--accent-d));
+  color:#fff;font-weight:700;font-size:.85rem}
+.flowlist li b{display:block;color:var(--ink);font-weight:600;margin-bottom:2px;font-size:.92rem}
+.imgbox{margin:0;margin-top:14px}
+.imgwrap{position:relative;background:#f6f8fa;border:1px dashed #d3dbe1;border-radius:12px;overflow:hidden;min-height:190px}
+.imgwrap .ph{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:16px;color:#8b9aa2;font-size:.78rem;line-height:1.7}
+.imgwrap img{position:relative;z-index:2;width:100%;height:100%;object-fit:cover}
+.imgbox figcaption{font-size:.75rem;color:var(--muted);margin-top:7px;text-align:center}
+.part{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-bottom:24px}
+.part-h{display:flex;align-items:center;gap:12px;padding:14px 22px;background:#fbfcfd;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.part-h .bd{font-size:.69rem;font-weight:700;color:#fff;background:var(--blue);padding:4px 12px;border-radius:99px}
+.part-h h3{font-size:1.02rem;font-weight:600}
+.part-h .en{font-size:.67rem;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;margin-left:auto}
+.part-b{display:grid;grid-template-columns:1fr 1fr}
+.part-b .pi{border-right:1px solid var(--line);padding:16px;background:#fcfdfe}
+.part-b.flip .pi{order:2;border-right:none;border-left:1px solid var(--line)}
+.ptx{padding:20px 22px}
+.ptx h5{font-size:.89rem;color:var(--accent-d);margin-bottom:7px;font-weight:600}
+.ptx p{font-size:.86rem;color:var(--ink2);margin-bottom:10px}
+.ptx ul{margin:0 0 11px 18px;font-size:.84rem;color:var(--ink2)}
+.ptx li{margin-bottom:4px}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tg{font-size:.68rem;font-weight:600;padding:3px 10px;border-radius:99px;background:#f2f6f8;color:#4a5b66;border:1px solid var(--line)}
+.tg.h{background:rgba(214,55,44,.08);color:var(--high);border-color:rgba(214,55,44,.2)}
+.tg.m{background:rgba(232,145,58,.12);color:#b96c14;border-color:rgba(232,145,58,.25)}
+.sbox{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 15px}
+.sbox input{border:none;outline:none;background:none;font-family:inherit;font-size:.9rem;width:100%;color:var(--ink)}
+.sbox .ico{color:var(--muted)}
+.sbox .clr{border:none;background:#f2f6f8;color:var(--muted);border-radius:8px;padding:3px 8px;font-size:.75rem;cursor:pointer;font-family:inherit;display:none}
+.sbox .clr.on{display:block}
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:20px}
+.tools .sbox{flex:1;min-width:230px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:8px 15px;font-size:.78rem;font-weight:500;
+  cursor:pointer;transition:.2s;font-family:inherit;color:#4a5b66}
+.chip:hover{border-color:var(--accent);color:var(--accent-d)}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.acc-one{display:flex;flex-direction:column;gap:12px}
+.acc{background:#fff;border:1px solid var(--line);border-radius:16px;border-left:4px solid var(--mid);
+  box-shadow:0 2px 10px rgba(27,43,56,.04);transition:box-shadow .25s}
+.acc.hi{border-left-color:var(--high)}
+.acc.open{box-shadow:0 10px 28px rgba(27,43,56,.1)}
+.acc-h{display:flex;align-items:center;gap:13px;padding:16px 20px;cursor:pointer;user-select:none}
+.acc-h:hover{background:#fafcfd}
+.acc-num{width:34px;height:34px;border-radius:11px;flex:0 0 auto;display:grid;place-items:center;font-size:.82rem;font-weight:700;color:#fff;background:var(--mid)}
+.acc.hi .acc-num{background:var(--high)}
+.acc-tt{flex:1;min-width:0}
+.acc-tt b{display:block;font-size:1rem;font-weight:600;line-height:1.4}
+.acc-tt span{display:block;font-size:.75rem;color:var(--muted)}
+.acc-risk{font-size:.71rem;font-weight:700;padding:4px 12px;border-radius:99px;flex:0 0 auto;
+  background:rgba(232,145,58,.14);color:#b96c14;border:1px solid rgba(232,145,58,.3)}
+.acc.hi .acc-risk{background:rgba(214,55,44,.09);color:var(--high);border-color:rgba(214,55,44,.24)}
+.acc-ch{flex:0 0 auto;color:var(--accent);font-size:1rem;transition:transform .3s;line-height:1}
+.acc.open .acc-ch{transform:rotate(180deg)}
+.acc-b{max-height:0;overflow:hidden;transition:max-height .42s ease}
+.acc.open .acc-b{max-height:2600px}
+.acc-in{padding:6px 20px 20px;border-top:1px solid var(--line)}
+.acc-in dl{display:grid;grid-template-columns:130px 1fr;gap:5px 16px;font-size:.83rem;background:#fafcfd;border-radius:12px;padding:14px 16px;margin-bottom:16px}
+.acc-in dt{font-weight:600;color:var(--ink)}
+.acc-in dd{color:var(--ink2)}
+.acc-in h6{font-size:.84rem;color:var(--accent-d);margin:14px 0 6px;font-weight:600}
+.acc-in p{font-size:.85rem;color:var(--ink2);margin-bottom:6px}
+.evbox{background:rgba(239,90,32,.06);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:12px 15px;font-size:.83rem;color:var(--ink2)}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.mbtn{display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;padding:8px 15px;border-radius:9px;
+  font-size:.79rem;font-weight:600;transition:.2s;border:none;cursor:pointer;font-family:inherit}
+.mbtn:hover{background:#1e5f8e}
+.mbtn.g{background:#f2f6f8;color:#4a5b66;border:1px solid var(--line)}
+.mbtn.g:hover{background:#e8eef2}
+@media(max-width:640px){.acc-in dl{grid-template-columns:1fr;gap:2px 0}.acc-in dt{margin-top:6px}}
+
+/* ============ เหตุการณ์สำคัญ ============ */
+.ev-one{display:flex;flex-direction:column;gap:14px}
+.evc{background:#fff;border:1px solid var(--line);border-radius:16px;border-left:4px solid var(--high);
+  box-shadow:0 2px 10px rgba(27,43,56,.04);transition:box-shadow .25s}
+.evc.open{box-shadow:0 10px 28px rgba(27,43,56,.1)}
+.evc-h{display:flex;align-items:center;gap:13px;padding:16px 20px;cursor:pointer;user-select:none}
+.evc-h:hover{background:#fafcfd}
+.evc-tt{flex:1;min-width:0}
+.evc-tt b{display:block;font-size:.98rem;font-weight:600;line-height:1.5}
+.evc-tt span{display:block;font-size:.75rem;color:var(--muted);margin-top:2px}
+.evc-ch{flex:0 0 auto;color:var(--accent);font-size:1rem;transition:transform .3s;line-height:1}
+.evc.open .evc-ch{transform:rotate(180deg)}
+.evc-b{max-height:0;overflow:hidden;transition:max-height .45s ease}
+.evc.open .evc-b{max-height:4000px}
+.evc-in{padding:10px 20px 22px;border-top:1px solid var(--line)}
+.flag{display:inline-flex;align-items:center;gap:6px;font-size:.71rem;font-weight:700;color:#fff;background:var(--high);
+  padding:3px 10px;border-radius:99px;margin-bottom:14px}
+.flag.gray{background:var(--blue)}
+.flag.amber{background:var(--mid)}
+
+/* ตารางข้อมูลเหตุการณ์ */
+.ev-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:9px;margin-bottom:16px}
+.ev-facts > div{background:#fafcfd;border:1px solid var(--line);border-radius:12px;padding:11px 14px}
+.ev-facts span{display:block;font-size:.69rem;color:var(--muted);margin-bottom:2px;line-height:1.5}
+.ev-facts b{display:block;font-size:.88rem;color:var(--ink);font-weight:600;line-height:1.45}
+
+.evc-in p{font-size:.86rem;color:var(--ink2);margin-bottom:10px;line-height:1.85}
+.evc-in p b{color:var(--ink)}
+.evc-in h6{font-size:.86rem;color:var(--accent-d);margin:18px 0 8px;font-weight:600;
+  display:flex;align-items:center;gap:8px}
+.evc-in h6::before{content:"";width:4px;height:15px;border-radius:2px;background:linear-gradient(180deg,var(--accent),#f8b98f);flex:0 0 auto}
+.evc-in ul{margin:0 0 10px 20px;font-size:.86rem;color:var(--ink2)}
+.evc-in li{margin-bottom:5px;line-height:1.8}
+
+/* รูปในเหตุการณ์ */
+.ev-img{margin:14px 0;max-width:500px}
+.ev-img .imgwrap{min-height:220px}
+.ev-img figcaption{font-size:.76rem;color:var(--muted);margin-top:8px;text-align:center;line-height:1.7}
+.ev-img .src{font-size:.7rem;color:#a9b4ba;display:block;margin-top:3px}
+
+/* กล่องบทเรียน */
+.ev-note{background:linear-gradient(135deg,rgba(239,90,32,.06),rgba(232,145,58,.09));
+  border-left:3px solid var(--accent);border-radius:0 11px 11px 0;padding:13px 16px;
+  font-size:.85rem;color:var(--ink2);margin-top:8px;line-height:1.85}
+.ev-note b{color:var(--accent-d)}
+
+/* Modal */
+.mb{position:fixed;inset:0;background:rgba(27,43,56,.58);z-index:1200;display:none;align-items:center;justify-content:center;padding:20px}
+.mb.on{display:flex}
+.mdl{background:#fff;border-radius:18px;max-width:620px;width:100%;max-height:88vh;overflow-y:auto}
+.mdl-t{background:linear-gradient(135deg,var(--accent),var(--accent-d));color:#fff;padding:22px 24px 18px;position:relative}
+.mdl-t h3{font-size:1.13rem;margin-bottom:3px}
+.mdl-t .en{font-size:.69rem;color:#ffe3d5;letter-spacing:1.2px;text-transform:uppercase}
+.mdl-x{position:absolute;top:13px;right:13px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.2);border:none;color:#fff;font-size:1rem;cursor:pointer}
+.mdl-x:hover{background:rgba(0,0,0,.2)}
+.mdl-b{padding:22px 24px 26px}
+.mdl-b h4{font-size:.9rem;color:var(--accent-d);margin:15px 0 8px;font-weight:600}
+.mdl-b h4:first-child{margin-top:0}
+.mdl-b p{font-size:.86rem;color:var(--ink2);margin-bottom:7px}
+
+/* แผนที่ */
+.shell{display:grid;grid-template-columns:1fr 335px;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 8px 28px rgba(27,43,56,.08)}
+.marea{position:relative;background:#eef2f5;min-height:580px}
+#mapReal{height:580px;width:100%;background:#eef2f5}
+.mleg{position:absolute;left:14px;bottom:14px;z-index:5;background:rgba(255,255,255,.97);border-radius:12px;padding:12px 15px;box-shadow:0 4px 18px rgba(0,0,0,.12);border:1px solid var(--line)}
+.mleg h6{font-size:.75rem;font-weight:700;margin-bottom:7px}
+.mleg .li{display:flex;align-items:center;gap:8px;font-size:.72rem;color:var(--ink2);margin-bottom:4px}
+.lgl{width:26px;height:0;border-top:3.5px solid;border-radius:3px;flex:0 0 auto}
+.lgd{width:11px;height:11px;border-radius:50%;flex:0 0 auto;border:2px solid #fff;box-shadow:0 0 0 1px #c9ced4}
+.mapfall{display:none;position:absolute;inset:0;z-index:6;background:#f7f9fa;place-items:center;text-align:center;padding:30px}
+.mapfall.on{display:grid}
+.mapfall b{display:block;font-size:1rem;margin-bottom:8px;color:var(--ink)}
+.mapfall p{font-size:.86rem;color:var(--ink2);margin-bottom:14px;max-width:460px}
+.mside{border-left:1px solid var(--line);display:flex;flex-direction:column;max-height:580px;background:#fff}
+.mside-h{padding:14px 16px 11px;border-bottom:1px solid var(--line)}
+.mside-h h4{font-size:.9rem;margin-bottom:2px;font-weight:600}
+.mside-h p{font-size:.72rem;color:var(--muted)}
+.msearch{padding:10px 16px;border-bottom:1px solid var(--line)}
+.mfilter{display:flex;gap:6px;padding:10px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.mchip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:5px 12px;font-size:.69rem;cursor:pointer;font-family:inherit;color:#4a5b66}
+.mchip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.mlist{overflow-y:auto;flex:1;padding:8px}
+.mitem{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:10px;border:1px solid transparent;cursor:pointer;transition:.18s;margin-bottom:3px}
+.mitem:hover{background:#f7fafc}
+.mitem.on{background:rgba(239,90,32,.07);border-color:rgba(239,90,32,.3)}
+.mitem .bar{width:3px;align-self:stretch;border-radius:3px;background:var(--mid);flex:0 0 auto}
+.mitem.hi .bar{background:var(--high)}
+.mitem .tx{flex:1;min-width:0}
+.mitem .tx b{display:block;font-size:.81rem;font-weight:600;line-height:1.4}
+.mitem .tx span{display:block;font-size:.67rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mitem .dt{width:10px;height:10px;border-radius:50%;flex:0 0 auto;background:var(--mid)}
+.mitem.hi .dt{background:var(--high)}
+.mlist::-webkit-scrollbar{width:6px}
+.mlist::-webkit-scrollbar-thumb{background:#d5dce1;border-radius:6px}
+.note{font-size:.79rem;color:var(--muted);margin-top:14px;background:#fff;border-radius:11px;padding:11px 15px;border-left:3px solid var(--mid)}
+.pin-num{background:transparent!important;border:none!important}
+.pin-num div{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:10.5px;
+  font-weight:700;color:#fff;background:var(--blue);border:2px solid #fff;box-shadow:0 2px 7px rgba(0,0,0,.32);
+  font-family:'IBM Plex Sans Thai',sans-serif;transition:.18s}
+.pin-num:hover div{transform:scale(1.2);background:var(--accent)}
+.cts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.ct{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
+.ct h4{font-size:.89rem;margin-bottom:8px;display:flex;align-items:center;gap:8px;font-weight:600}
+.ct p{font-size:.81rem;color:var(--ink2);margin-bottom:4px}
+.tel{display:inline-block;font-size:1.06rem;font-weight:700;color:#fff;background:var(--accent);padding:6px 15px;border-radius:9px;margin-top:5px}
+.tel:hover{background:var(--accent-d)}
+footer{background:#1b2b38;color:#9aabb5;padding:44px 0 22px;position:relative;z-index:2}
+.credit{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;background:var(--accent);color:#fff;border-radius:14px;padding:16px 22px;margin-bottom:28px;text-align:center}
+.credit b{font-size:1.02rem}
+.credit span{font-size:.79rem;background:rgba(0,0,0,.2);padding:4px 13px;border-radius:99px;font-weight:600}
+.fg{display:grid;grid-template-columns:1.3fr 1fr 1.2fr;gap:26px;margin-bottom:26px}
+footer h5{color:#e6ebee;font-size:.87rem;margin-bottom:10px}
+footer p,footer li{font-size:.79rem;line-height:1.85;color:#8b9aa4}
+footer ul{list-style:none}
+footer ul li::before{content:"▸ ";color:var(--accent)}
+footer a:hover{color:#f8b98f}
+.fb{border-top:1px solid rgba(255,255,255,.08);padding-top:18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.75rem;color:#7c8b95}
+#top{position:fixed;right:18px;bottom:18px;width:46px;height:46px;border-radius:50%;background:#1b2b38;color:#fff;border:none;
+  font-size:1.1rem;cursor:pointer;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.25);
+  opacity:0;pointer-events:none;transition:.25s;z-index:800}
+#top.on{opacity:1;pointer-events:auto}
+#top:hover{background:var(--accent)}
+@media(max-width:1020px){.shell{grid-template-columns:1fr}.mside{border-left:none;border-top:1px solid var(--line);max-height:340px}
+  #mapReal{height:420px}.marea{min-height:420px}.fg{grid-template-columns:1fr 1fr}}
+@media(max-width:860px){.part-b,.part-b.flip{grid-template-columns:1fr}
+  .part-b .pi,.part-b.flip .pi{order:0;border:none;border-bottom:1px solid var(--line)}
+  section.blk{padding:32px 0}.box{padding:24px 20px;border-radius:20px}}
+@media(max-width:540px){.fg{grid-template-columns:1fr}#mapReal{height:330px}.marea{min-height:330px}
+  .ev-facts{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<header class="topbar" id="topbar">
+  <div class="topbar-in">
+    <a href="#cover" class="tb-brand">
+      <span class="tb-mk">
+        <svg viewBox="0 0 32 32" fill="none">
+          <path d="M4 11 L12 8 L20 12 L28 9" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3 20 L11 23 L19 19 L29 22" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="tb-txt">
+        <b>รอยเลื่อนมีพลังประเทศไทย</b>
+        <span>Active Faults of Thailand</span>
+      </span>
+    </a>
+    <nav class="tb-nav" id="tbNav">
+      <a href="#b1">ภาพรวม</a>
+      <a href="#b2">แรงเค้น</a>
+      <a href="#b3">รอยเลื่อน 3 ประเภท</a>
+      <a href="#b4">16 กลุ่มรอยเลื่อน</a>
+      <a href="#b5">แผนที่</a>
+      <a href="#b6">เหตุการณ์สำคัญ</a>
+    </nav>
+  </div>
+</header>
+
+<section class="cover" id="cover">
+  <div class="wrap cover-grid">
+    <div class="cover-in">
+      <span class="cbadge"><i></i> สื่อความรู้ · ธรณีพิบัติภัย</span>
+      <h1>รู้จัก <em>รอยเลื่อนมีพลัง</em><br>16 กลุ่ม บนผืนแผ่นดินไทย</h1>
+      <p class="clead">
+        ประเทศไทยไม่ได้อยู่ในวงแหวนแห่งไฟ แต่มีแนวรอยเลื่อนมีพลังพาดผ่าน
+        <b>23 จังหวัด 124 อำเภอ 421 ตำบล และ 1,520 หมู่บ้าน</b>
+        — เรียนรู้ให้เข้าใจ คือเกราะป้องกันที่ดีที่สุด
+      </p>
+      <div class="cchips">
+       
+      </div>
+      <div class="crule"></div>
+    </div>
+
+    <figure class="cover-art">
+      <span class="halo" aria-hidden="true"></span>
+      <div class="photo-frame">
+        <img src="img/map1.jpg" alt="แผนที่รอยเลื่อนมีพลังในประเทศไทย"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
+        <div class="holder" style="display:none;">
+          วางไฟล์รูปชื่อ <b>map.png</b><br>ไว้ในโฟลเดอร์เดียวกับไฟล์ HTML
+        </div>
+      </div>
+      <figcaption class="cap">
+        <b>แผนที่รอยเลื่อนมีพลัง : ระดับความมีพลัง</b>
+        <span>กรมทรัพยากรธรณี · กระทรวงทรัพยากรธรรมชาติและสิ่งแวดล้อม</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="blk" id="b1">
+  <div class="wrap">
+    <div class="box bg-cream">
+      <div class="hrow"><div class="num">1</div><span class="lbl" style="margin:0">ภาพรวมความรู้</span></div>
+      <h2 class="t">รอยเลื่อนมีพลังคืออะไร ทำไมคนไทยต้องรู้</h2>
+      <p class="sub">รอยเลื่อนไม่ใช่เรื่องไกลตัว แต่เป็นข้อมูลที่ช่วยตัดสินใจเรื่องที่อยู่อาศัย การก่อสร้าง และการเตรียมพร้อมรับมือภัยพิบัติได้อย่างถูกต้อง</p>
+
+      <div class="grow">
+        <div class="card">
+          <h4><span class="idot b">🧩</span> ความหมายของรอยเลื่อน</h4>
+          <p><b>รอยเลื่อน (Fault)</b> คือรอยแตกในหินเปลือกโลกที่มีการเคลื่อนตัวของมวลหินสองด้าน
+             ส่วน <b>รอยเลื่อนมีพลัง (Active Fault)</b> คือรอยเลื่อนที่มีหลักฐานว่าเคยเกิดการเลื่อนตัว
+             หรือเกิดแผ่นดินไหวขึ้นแล้วภายในระยะเวลาประมาณ 10,000 ปีที่ผ่านมา จึงมีโอกาสเกิดซ้ำได้อีกในอนาคต</p>
+        </div>
+        <div class="card">
+          <h4><span class="idot a">📊</span> ตัวเลขที่ควรรู้</h4>
+          <p>กรมทรัพยากรธรณีสำรวจและประกาศกลุ่มรอยเลื่อนมีพลังของประเทศไทยไว้ <b>16 กลุ่ม</b>
+             พาดผ่าน <b>23 จังหวัด 124 อำเภอ 421 ตำบล 1,520 หมู่บ้าน</b>
+             โดยกลุ่มที่ 16 คือ <b>รอยเลื่อนเวียงแหง</b> ประกาศเพิ่มเมื่อปี พ.ศ. 2562</p>
+        </div>
+        <div class="card">
+          <h4><span class="idot">🌐</span> ทำไมประเทศไทยถึงมีแผ่นดินไหว</h4>
+          <p>แม้ไทยไม่ได้อยู่ในแนววงแหวนแห่งไฟ แต่ได้รับอิทธิพลจาก <b>การเคลื่อนตัวของแผ่นเปลือกโลก</b>
+             ที่อยู่รอบด้าน ทั้งแผ่นยูเรเซีย แผ่นอินเดีย และแผ่นซุนดา
+             ทำให้เกิดแรงเค้นสะสมในเปลือกโลกและเกิดรอยเลื่อนมีพลังขึ้นภายในประเทศ
+             ทั้งนี้ แผ่นดินไหวขนาดใหญ่ในประเทศเพื่อนบ้าน เช่น เมียนมาและลาว
+             ยังส่งแรงสั่นสะเทือนข้ามพรมแดนมาถึงไทยได้อีกด้วย</p>
+        </div>
+        <div class="card">
+          <h4><span class="idot g">🧭</span> แนวรอยเลื่อนหลักของไทย</h4>
+          <p>รอยเลื่อนในประเทศไทยส่วนใหญ่วางตัวใน 3 แนวหลัก ได้แก่ <b>แนวเหนือ–ใต้</b>,
+             <b>แนวตะวันออกเฉียงเหนือ–ตะวันตกเฉียงใต้</b> และ <b>แนวตะวันตกเฉียงเหนือ–ตะวันออกเฉียงใต้</b>
+             ซึ่งแนวเหล่านี้สัมพันธ์กับทิศทางการเคลื่อนตัวของแผ่นเปลือกโลกในภูมิภาค</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <b>📌 จำง่าย ๆ:</b> รอยเลื่อนไม่ได้ “เปิด–ปิด” ตามใจ แต่สะสมความเค้นไปเรื่อย ๆ
+        จนเมื่อหินรับไม่ไหวจึงแตกและปลดปล่อยพลังงานออกมาเป็นคลื่นแผ่นดินไหว
+        ยิ่งสะสมนาน พลังงานที่ปลดปล่อยในครั้งเดียวก็อาจยิ่งมาก — หลักการนี้เรียกว่า
+        <b>ทฤษฎีการคืนตัวแบบยืดหยุ่น (Elastic Rebound Theory)</b>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="b2">
+  <div class="wrap">
+    <div class="box bg-sky">
+      <div class="hrow"><div class="num">2</div><span class="lbl" style="margin:0">ความรู้เบื้องต้น</span></div>
+      <h2 class="t">แรงเค้น (Stress) และกระบวนการเกิดรอยเลื่อน</h2>
+      <p class="sub">รอยเลื่อนเกิดจากการสะสมความเค้นในเปลือกโลก ทำให้หินแตกและเคลื่อนตัวออกจากกันในรูปแบบต่าง ๆ ตามชนิดและทิศทางของแรงที่มากระทำ</p>
+
+      <div class="g2" style="margin-bottom:26px">
+        <div class="card">
+          <figure class="imgbox">
+            <div class="imgwrap">
+             
+              <img src="img/บีบ1.png" alt="แรงอัด" onerror="this.style.display='none'">
+            </div>
+            <figcaption>แรงอัด (Compression)</figcaption>
+          </figure>
+          <h4 style="margin-top:12px">แรงอัด (Compression)</h4>
+          <p>แรงบีบเข้าหากัน ทำให้หินหนาและสั้นลง เกิดรอยเลื่อนย้อน (Reverse / Thrust Fault)</p>
+        </div>
+        <div class="card">
+          <figure class="imgbox">
+            <div class="imgwrap">
+             
+              <img src="img/ดึง1.png" alt="แรงดึง" onerror="this.style.display='none'">
+            </div>
+            <figcaption>แรงดึง (Tension)</figcaption>
+          </figure>
+          <h4 style="margin-top:12px">แรงดึง (Tension)</h4>
+          <p>แรงดึงออกจากกัน ทำให้หินยืดและบางลง เกิดรอยเลื่อนปกติ (Normal Fault)</p>
+        </div>
+        <div class="card">
+          <figure class="imgbox">
+            <div class="imgwrap">
+             
+              <img src="img/เฉือน1.png" alt="แรงเฉือน" onerror="this.style.display='none'">
+            </div>
+            <figcaption>แรงเฉือน (Shear)</figcaption>
+          </figure>
+          <h4 style="margin-top:12px">แรงเฉือน (Shear)</h4>
+          <p>แรงสวนทางกันในแนวขนาน เกิดรอยเลื่อนตามแนวระนาบ (Strike-Slip Fault)</p>
+        </div>
+      </div>
+
+      <h3 style="font-size:1.05rem;font-weight:600;margin-bottom:14px">กระบวนการเกิดรอยเลื่อนใน 5 ขั้นตอน</h3>
+      <ol class="flowlist">
+        <li><b>กระแสพาความร้อน (Convection)</b>
+          ความร้อนจากแก่นโลกทำให้เกิดกระแสพาความร้อนในชั้นเนื้อโลก ผลักดันให้แผ่นเปลือกโลกเคลื่อนที่ไปอย่างช้า ๆ</li>
+        <li><b>แรงเค้นสะสม (Stress build-up)</b>
+          แรงเสียดสีและการชนกันของแผ่นเปลือกโลก ทำให้เกิดความเค้นสะสมในเนื้อหินบริเวณแนวอ่อนแอ</li>
+        <li><b>หินบิดตัว (Elastic strain)</b>
+          หินยังไม่แตก แต่เกิดการยืดหยุ่นและสะสมพลังงานไว้ เหมือนสปริงที่ถูกอัด</li>
+        <li><b>หินแตกและเลื่อนตัว (Rupture &amp; Slip)</b>
+          เมื่อความเค้นสูงเกินกำลังรับของหิน หินจะแตกตามระนาบรอยเลื่อนและเคลื่อนตัวออกจากกัน</li>
+        <li><b>คืนตัว (Elastic Rebound)</b>
+          มวลหินกลับสู่รูปร่างเดิม พร้อมปลดปล่อยพลังงานออกมาเป็นคลื่นแผ่นดินไหว</li>
+      </ol>
+
+      <div class="callout">
+        <b>💡 ความรู้เพิ่มเติม:</b> จุดที่แผ่นดินไหวเริ่มแตกออกครั้งแรกเรียกว่า
+        <b>จุดศูนย์เกิดแผ่นดินไหว (Focus / Hypocenter)</b> ซึ่งอยู่ใต้ดิน
+        ส่วนตำแหน่งบนผิวดินที่อยู่ตรงกับจุดนี้เรียกว่า <b>จุดเหนือศูนย์กลาง (Epicenter)</b>
+        ยิ่งจุดศูนย์เกิดอยู่ตื้นเท่าไร ผิวดินก็ยิ่งรู้สึกสั่นสะเทือนรุนแรงขึ้นเท่านั้น
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="b3">
+  <div class="wrap">
+    <div class="box bg-mint">
+      <div class="hrow"><div class="num">3</div><span class="lbl" style="margin:0">การเคลื่อนตัว</span></div>
+      <h2 class="t">รอยเลื่อน 3 ประเภทหลัก: กลไกและลักษณะการเคลื่อนตัว</h2>
+      
+
+      <div class="part">
+        <div class="part-h"><span class="bd">ประเภทที่1</span><h3>รอยเลื่อนปกติ (Normal Fault)</h3><span class="en">Normal Fault</span></div>
+        <div class="part-b">
+          <div class="pi">
+            <figure class="imgbox">
+              <div class="imgwrap">
+               
+                <img src="img/เลื่อน.png" alt="รอยเลื่อนปกติ" onerror="this.style.display='none'">
+              </div>
+              <figcaption>ภาพ หินด้านบน (Hanging Wall) จมตัวลงตามระนาบรอยเลื่อน</figcaption>
+            </figure>
+          </div>
+          <div class="ptx">
+            <h5>กลไกการเกิด</h5>
+            <p>เกิดจาก <b>แรงดึง (Tension)</b> ที่ทำให้เปลือกโลกแยกออกจากกัน มวลหินด้านบนระนาบรอยเลื่อน (Hanging Wall) จะจมตัวลงตามระนาบที่เอียงชัน ส่วน Footwall อยู่กับที่</p>
+            <h5>ลักษณะการเคลื่อนตัว</h5>
+            <ul>
+              <li>มวลหินด้านบน <b>เลื่อนลง</b> ตามระนาบที่เอียงประมาณ 60 องศา</li>
+              <li>ผิวดินด้านหนึ่งสูงขึ้นเป็นหน้าผา อีกด้านทรุดเป็นแอ่ง (Basin)</li>
+              <li>เปลือกโลกยืดตัวออกและบางลง</li>
+            </ul>
+            <div class="tags"><span class="tg">แรงดึง</span><span class="tg">Hanging wall จมลง</span><span class="tg m">มุมเอียงชัน ~60°</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="part">
+        <div class="part-h"><span class="bd" style="background:#d6372c">ประเภทที่2</span><h3>รอยเลื่อนย้อน (Reverse / Thrust Fault)</h3><span class="en">Reverse Fault</span></div>
+        <div class="part-b flip">
+          <div class="pi">
+            <figure class="imgbox">
+              <div class="imgwrap">
+               
+                <img src="img/ย้อน.png" alt="รอยเลื่อนย้อน" onerror="this.style.display='none'">
+              </div>
+              <figcaption>ภาพ หินด้านบนถูกดันให้เคลื่อนขึ้นทับอีกด้าน</figcaption>
+            </figure>
+          </div>
+          <div class="ptx">
+            <h5>กลไกการเกิด</h5>
+            <p>เกิดจาก <b>แรงอัด (Compression)</b> ที่ดันเปลือกโลกเข้าหากัน มวลหินด้านบนระนาบ (Hanging Wall) จะถูกดันให้ <b>เคลื่อนขึ้นทับ</b> อีกด้าน ทำให้เปลือกโลกสั้นลงและหนาขึ้น</p>
+            <h5>ลักษณะการเคลื่อนตัว</h5>
+            <ul>
+              <li>มวลหินด้านบน <b>เลื่อนขึ้น</b> ทับ Footwall</li>
+              <li>ทำให้เกิดการยกตัวเป็นเทือกเขาและภูเขาสูง</li>
+              <li>ถ้ามุมระนาบต่ำกว่า 45 องศา เรียกว่า Thrust Fault</li>
+            </ul>
+            <div class="tags"><span class="tg h">แรงอัด</span><span class="tg">Hanging wall ยกขึ้น</span><span class="tg m">มุมต่ำ &lt; 45° (Thrust)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="part" style="margin-bottom:0">
+        <div class="part-h"><span class="bd" style="background:#3f8f57">ประเภทที่3</span><h3>รอยเลื่อนตามแนวระนาบ (Strike-Slip Fault)</h3><span class="en">Strike-Slip Fault</span></div>
+        <div class="part-b">
+          <div class="pi">
+            <figure class="imgbox">
+              <div class="imgwrap">
+                <span class="ph">วางไฟล์รูปที่ <b>images/fault-strikeslip.jpg</b></span>
+                <img src="img/ตามแนวระดับ.png" alt="รอยเลื่อนตามแนวระนาบ" onerror="this.style.display='none'">
+              </div>
+              <figcaption>ภาพ สองแผ่นเคลื่อนสวนทางกันในแนวระนาบ</figcaption>
+            </figure>
+          </div>
+          <div class="ptx">
+            <h5>กลไกการเกิด</h5>
+            <p>เกิดจาก <b>แรงเฉือน (Shear)</b> ที่ทำให้มวลหินสองด้านเคลื่อนสวนทางกันในแนวระนาบ ไม่มีการจมหรือยกตัวมากนัก</p>
+            <h5>ลักษณะการเคลื่อนตัว</h5>
+            <ul>
+              <li><b>เหลื่อมซ้าย (Left-lateral)</b> — แผ่นฝั่งตรงข้ามขยับไปทางซ้าย</li>
+              <li><b>เหลื่อมขวา (Right-lateral)</b> — แผ่นฝั่งตรงข้ามขยับไปทางขวา</li>
+              <li>มักทำให้ถนน ลำน้ำ หรือรั้ว ถูกตัดเหลื่อมอย่างเห็นได้ชัด</li>
+            </ul>
+            <div class="tags"><span class="tg m">แรงเฉือน</span><span class="tg">เคลื่อนแนวนอน</span><span class="tg">เหลื่อมซ้าย / ขวา</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="b4">
+  <div class="wrap">
+    <div class="box bg-sand">
+      <div class="hrow"><div class="num">4</div><span class="lbl" style="margin:0">ฐานข้อมูลรอยเลื่อน</span></div>
+      <h2 class="t">16 กลุ่มรอยเลื่อนมีพลังของประเทศไทย</h2>
+      <p class="sub">ข้อมูลสรุปและสถานะกลุ่มรอยเลื่อนมีพลังในประเทศไทย</p>
+
+      <div class="tools">
+        <div class="sbox">
+          <span class="ico">🔍</span>
+          <input type="text" id="fSearch" placeholder="พิมพ์ชื่อรอยเลื่อน หรือจังหวัด เช่น เถิน / เชียงราย / ระนอง">
+          <button class="clr" id="fClear">ล้าง</button>
+        </div>
+        <button class="chip on" data-f="all">ทั้งหมด 16</button>
+        <button class="chip" data-f="north">ภาคเหนือ</button>
+        <button class="chip" data-f="central">กลาง–ตะวันตก</button>
+        <button class="chip" data-f="south">ภาคใต้</button>
+        <button class="chip" id="closeAll">ย่อทั้งหมด</button>
+      </div>
+
+      <div class="acc-one" id="accList"></div>
+      <p style="font-size:.83rem;color:var(--muted);margin-top:14px" id="fCount"></p>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="b5">
+  <div class="wrap">
+    <div class="box bg-sky">
+      <div class="hrow"><div class="num">5</div><span class="lbl" style="margin:0">แผนที่</span></div>
+      <h2 class="t">แผนที่รอยเลื่อนมีพลังบน Google Maps</h2>
+      <p class="sub">สำรวจและค้นหาข้อมูลกลุ่มรอยเลื่อนมีพลังจำแนกตามภูมิภาค</p>
+
+      <div class="shell">
+        <div class="marea">
+          <div id="mapReal"></div>
+          <div class="mleg">
+            <h6>คำอธิบายสัญลักษณ์</h6>
+            <div class="li"><span class="lgl" style="border-color:#d6372c"></span> รอยเลื่อนความเสี่ยงสูง</div>
+            <div class="li"><span class="lgl" style="border-color:#e8913a"></span> รอยเลื่อนความเสี่ยงปานกลาง</div>
+            <div class="li"><span class="lgd" style="background:#d6372c"></span> ศูนย์กลางรอยเลื่อน</div>
+          </div>
+          <div class="mapfall" id="mapFall">
+            <div>
+              <b>ยังโหลดแผนที่ Google Maps ไม่ได้</b>
+              <p>
+                สาเหตุที่พบบ่อย: (1) ยังไม่เปิด <b>Maps JavaScript API</b> ในโปรเจกต์ ·
+                (2) ยังไม่เปิด <b>Billing</b> · (3) ตั้ง <b>HTTP referrer restriction</b> ไม่ตรงกับโดเมนที่เปิด
+                <br><br>ตรวจสอบได้ที่ Google Cloud Console → APIs &amp; Services → Credentials
+              </p>
+              <a class="mbtn" href="https://console.cloud.google.com/google/maps-apis/credentials" target="_blank" rel="noopener">เปิดหน้าจัดการคีย์</a>
+              <a class="mbtn g" href="https://www.google.com/maps/@14.6,100.6,6z" target="_blank" rel="noopener" style="margin-left:8px">เปิดแผนที่ประเทศไทยใน Google Maps</a>
+            </div>
+          </div>
+        </div>
+
+        <aside class="mside">
+          <div class="mside-h">
+            <h4>รายชื่อกลุ่มรอยเลื่อน</h4>
+            
+          </div>
+          <div class="msearch">
+            <div class="sbox" style="padding:8px 13px">
+              <span class="ico">🔍</span>
+              <input type="text" id="mSearch" placeholder="ค้นหารอยเลื่อนบนแผนที่...">
+            </div>
+          </div>
+          <div class="mfilter">
+            <button class="mchip on" data-m="all">ทั้งหมด</button>
+            <button class="mchip" data-m="high">เสี่ยงสูง</button>
+            <button class="mchip" data-m="medium">ปานกลาง</button>
+          </div>
+          <div class="mlist" id="faultListMap"></div>
+        </aside>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+        <a class="mbtn" href="https://www.google.com/maps/@13.0,100.8,5.5z" target="_blank" rel="noopener">เปิดแผนที่ประเทศไทยใน Google Maps</a>
+        <a class="mbtn g" href="https://gis.dmr.go.th" target="_blank" rel="noopener">แผนที่ GIS กรมทรัพยากรธรณี</a>
+      </div>
+      <div class="note">เส้นบนแผนที่แสดงตำแหน่งเชิงสัญลักษณ์จากพิกัดโดยประมาณเพื่อการเรียนรู้ แนวที่แม่นยำระดับ 1:50,000 ให้ใช้ชุดข้อมูลของกรมทรัพยากรธรณี</div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="b6">
+  <div class="wrap">
+    <div class="box bg-lilac">
+      <div class="hrow"><div class="num">6</div><span class="lbl" style="margin:0">เหตุการณ์สำคัญ</span></div>
+      <h2 class="t">เหตุการณ์แผ่นดินไหวจากการเลื่อนตัวของรอยเลื่อนในประเทศไทย</h2>
+      <p class="sub">รวบรวม <b>9 เหตุการณ์</b> ที่เกิดจากการเลื่อนตัวของรอยเลื่อน พร้อมข้อมูล ขนาด ความลึก พื้นที่ผลกระทบ </p>
+
+      <div class="ev-one" id="evList"></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="b7">
+  <div class="wrap">
+    <div class="aware-wrap">
+      <div class="aware">
+        <p>
+          รอยเลื่อนมีพลังเป็นโครงสร้างทางธรณีวิทยาที่<b>มีความสัมพันธ์กับการเกิดแผ่นดินไหว</b>
+          การศึกษาลักษณะและการกระจายตัวของรอยเลื่อนช่วยให้เราเข้าใจการเปลี่ยนแปลงของเปลือกโลก
+          และเห็นความสำคัญของการศึกษาข้อมูลทางธรณีวิทยาอย่างเป็นระบบ
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="contact">
+  <div class="wrap">
+    <div class="box bg-peach">
+      <h3 style="font-size:1.05rem;font-weight:600;margin-bottom:6px">เบอร์โทรและช่องทางติดต่อหน่วยงาน</h3>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:4px">เก็บเบอร์เหล่านี้ไว้ในโทรศัพท์ เผื่อเหตุไม่คาดคิด</p>
+
+      <div class="cts" style="margin-top:22px">
+        <div class="ct"><h4>สายด่วนเหตุฉุกเฉิน</h4><p>แจ้งเหตุทั่วไปและเหตุฉุกเฉินทุกรณี</p><a class="tel" href="tel:191">191</a></div>
+        <div class="ct"><h4>กรมป้องกันและบรรเทาสาธารณภัย</h4><p>ศูนย์ช่วยเหลือผู้ประสบภัย (ปภ.)</p><a class="tel" href="tel:1784">1784</a></div>
+        <div class="ct"><h4>การแพทย์ฉุกเฉิน</h4><p>สถาบันการแพทย์ฉุกเฉินแห่งชาติ</p><a class="tel" href="tel:1669">1669</a></div>
+        <div class="ct"><h4>แจ้งเหตุธรณีพิบัติภัย</h4><p>สายด่วนกรมทรัพยากรธรณี</p><a class="tel" href="tel:1310">1310</a></div>
+          <h4>กองเฝ้าระวังแผ่นดินไหว กรมอุตุนิยมวิทยา</h4>
+          <p>ถนนสุขุมวิท แขวงบางนาใต้ เขตบางนา กรุงเทพมหานคร 10260</p>
+          <p>โทร. 02-399-4548 · โทรสาร 02-399-4541</p>
+          <p> E-Mail : tmdseismo@gmail.com</p>
+          <a class="tel" href="https://www.tmd.go.th/warning-and-events/warning-earthquake" target="_blank" rel="noopener">www.tmd.go.th</a>
+        </div>
+        <div class="ct"><h4>ศูนย์เตือนภัยพิบัติแห่งชาติ</h4><p>ติดตามประกาศเตือนภัยอย่างเป็นทางการ</p><a class="tel" href="tel:192">192</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="credit">
+      <b>จัดทำโดย นางสาวนิซัยนูน อาเย๊าะแซ</b>
+      <span>รหัสนักศึกษา 6820210576</span>
+      <b>สาขาวิชาภูมิศาสตร์ คณะมนุษยศาสตร์และสังคมศาสตร์ มหาวิทยาลัยสงขลานครินทร์ วิทยาเขตปัตตานี</b>
+    </div>
+    <div class="fg">
+      <div>
+        <h5>รอยเลื่อนมีพลังประเทศไทย</h5>
+        <p>สื่อความรู้เพื่อสร้างความตระหนักรู้เรื่องรอยเลื่อนมีพลัง และการเตรียมพร้อมรับมือแผ่นดินไหว
+           สำหรับประชาชนทั่วไป จัดทำขึ้นเพื่อวัตถุประสงค์ทางการศึกษา</p>
+      </div>
+      <div>
+        <h5>เมนู</h5>
+        <ul>
+          <li><a href="#b1">ภาพรวมความรู้</a></li>
+          <li><a href="#b2">แรงเค้นและรอยเลื่อน</a></li>
+          <li><a href="#b3">รอยเลื่อน 3 ประเภท</a></li>
+          <li><a href="#b4">ฐานข้อมูล 16 กลุ่ม</a></li>
+          <li><a href="#b5">แผนที่รอยเลื่อน</a></li>
+          <li><a href="#b6">เหตุการณ์สำคัญ</a></li>
+          <li><a href="#contact">ติดต่อหน่วยงาน</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>เอกสารอ้างอิงและติดต่อ</h5>
+        <ul>
+          <li>กรมอุตุนิยมวิทยา (กองเฝ้าระวังแผ่นดินไหว) — รายงานและฐานข้อมูลการตรวจวัดเหตุการณ์แผ่นดินไหว</li>
+          <li>กรมทรัพยากรธรณี — แผนที่รอยเลื่อนมีพลัง ระดับความมีพลัง</li>
+          <li>กรมทรัพยากรธรณี — ชุดข้อมูล “กลุ่มรอยเลื่อนมีพลัง” (data.dmr.go.th)</li>
+          <li>สมุดแผนที่รอยเลื่อนมีพลังในประเทศไทย ฉบับ พ.ศ. 2562</li>
+          <li>แผนที่ธรณีพิบัติภัย GIS กรมทรัพยากรธรณี (gis.dmr.go.th)</li>
+        </ul>
+        <p style="margin-top:9px">กรมทรัพยากรธรณี โทร. 02-621-9700<br>ฉุกเฉิน 191 · ปภ. 1784 · การแพทย์ฉุกเฉิน 1669 · ธรณีฯ 1310</p>
+      </div>
+    </div>
+    <div class="fb">
+      <span>© 2569 รอยเลื่อนมีพลังประเทศไทย · จัดทำเพื่อการศึกษา</span>
+      <span>ข้อมูลอ้างอิงจากกรมทรัพยากรธรณี กระทรวงทรัพยากรธรรมชาติและสิ่งแวดล้อม</span>
+    </div>
+  </div>
+</footer>
+
+<button id="top" aria-label="กลับขึ้นด้านบน">↑</button>
+
+<div class="mb" id="mBack">
+  <div class="mdl" role="dialog" aria-modal="true">
+    <div class="mdl-t">
+      <button class="mdl-x" id="mClose" aria-label="ปิด">✕</button>
+      <h3 id="mTitle">ชื่อกลุ่มรอยเลื่อน</h3>
+      <div class="en" id="mEn">FAULT ZONE</div>
+    </div>
+    <div class="mdl-b" id="mBody"></div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   ข้อมูล 16 กลุ่มรอยเลื่อน
+   ========================================================= */
+var FAULTS = [
+{id:1,name:"รอยเลื่อนแม่จัน",en:"Mae Chan Fault",region:"north",risk:"high",
+ coords:[[19.92,99.18],[19.96,99.56],[20.04,99.94],[20.16,100.12],[20.28,100.38]],
+ trend:"ตะวันออกเฉียงเหนือ–ตะวันตกเฉียงใต้",len:"ประมาณ 150 กิโลเมตร",provinces:"เชียงใหม่ · เชียงราย",
+ sense:"เหลื่อมซ้าย (Left-lateral) ร่วมกับการเลื่อนแบบทแยงมุม",gmap:"Mae Chan Chiang Rai Thailand",
+ desc:"หนึ่งในรอยเลื่อนที่ถูกจับตามากที่สุดของภาคเหนือ วางตัวแนวตะวันออกเฉียงเหนือ–ตะวันตกเฉียงใต้ พาดผ่านตั้งแต่ฝาง แม่อาย จังหวัดเชียงใหม่ ถึงแม่จัน เชียงแสน ดอยหลวง และเชียงของ จังหวัดเชียงราย มีอัตราการเลื่อนตัวประมาณ 1–2 มิลลิเมตรต่อปี",
+ event:"24 มีนาคม 2554 เกิดแผ่นดินไหวขนาดประมาณ 6.8 ที่เมืองทาร์เลย์ ประเทศเมียนมา ใกล้ชายแดนไทย–เมียนมา ส่งผลให้เกิดแรงสั่นสะเทือนรุนแรงในอำเภอแม่จัน แม่สาย และเชียงแสน จังหวัดเชียงราย อาคารบ้านเรือนและวัดหลายแห่งเสียหาย"},
+{id:2,name:"รอยเลื่อนเวียงแหง",en:"Wiang Haeng Fault",region:"north",risk:"medium",
+ coords:[[19.52,98.62],[19.68,98.82],[19.83,99.02]],
+ trend:"ตะวันออกเฉียงเหนือ–ตะวันตกเฉียงใต้",len:"ประมาณ 60–80 กิโลเมตร",provinces:"เชียงใหม่",
+ sense:"รอยเลื่อนปกติ (Normal) ร่วมกับองค์ประกอบแบบเหลื่อมซ้าย",gmap:"Wiang Haeng Chiang Mai Thailand",
+ desc:"รอยเลื่อนมีพลังลำดับที่ 16 ของประเทศไทย ประกาศเพิ่มเมื่อปี พ.ศ. 2562 ตั้งอยู่ในพื้นที่อำเภอเวียงแหง จังหวัดเชียงใหม่ ใกล้แนวชายแดนไทย–เมียนมา",
+ event:"เคยเกิดแผ่นดินไหวขนาดประมาณ 6.8 เมื่อราว 2,000 ปีก่อน ในพื้นที่จังหวัดเชียงใหม่"},
+{id:3,name:"รอยเลื่อนแม่อิง",en:"Mae Ing Fault",region:"north",risk:"high",
+ coords:[[19.55,99.28],[19.78,99.52],[19.98,99.78],[20.10,99.92]],
+ trend:"ตะวันออกเฉียงเหนือ–ตะวันตกเฉียงใต้",len:"ประมาณ 120 กิโลเมตร",provinces:"เชียงใหม่ · เชียงราย",
+ sense:"เหลื่อมซ้าย",gmap:"Mae Ing Chiang Rai Thailand",
+ desc:"วางตัวแนวตะวันออกเฉียงเหนือ–ตะวันตกเฉียงใต้ พาดผ่านพื้นที่ตอนบนของภาคเหนือ เชื่อมโยงกับแอ่งเชียงรายและพื้นที่ใกล้เคียง",
+ event:"เกิดแผ่นดินไหวมาแล้ว 5 ครั้ง ล่าสุดปี 2554 ที่จังหวัดเชียงราย ขนาด 4.1 หลายอำเภอรับรู้ถึงแรงสั่นสะเทือน"},
+{id:4,name:"รอยเลื่อนแม่ฮ่องสอน",en:"Mae Hong Son Fault",region:"north",risk:"high",
+ coords:[[18.85,97.85],[19.15,98.02],[19.45,98.22]],
+ trend:"ตะวันตกเฉียงเหนือ–ตะวันออกเฉียงใต้",len:"ประมาณ 130 กิโลเมตร",provinces:"แม่ฮ่องสอน · ตาก",
+ sense:"เหลื่อมซ้าย ร่วมกับรอยเลื่อนย้อนบางส่วน",gmap:"Mae Hong Son Thailand",
+ desc:"พาดผ่านจังหวัดแม่ฮ่องสอนและตาก ตามแนวชายแดนด้านตะวันตกของประเทศ มีธรณีสัณฐานเด่นชัดในพื้นที่อำเภอแม่สะเรียง",
+ event:"เกิดแผ่นดินไหวขนาดเล็กและปานกลางบ่อยครั้ง โดยครั้งสำคัญคือปี 2556 ที่ประเทศเมียนมา ขนาด 5.1"},
+{id:5,name:"รอยเลื่อนเมย",en:"Moei Fault",region:"north",risk:"medium",
+ coords:[[17.25,98.38],[16.95,98.52],[16.62,98.58],[16.25,98.68],[15.92,98.72]],
+ trend:"ตะวันตกเฉียงเหนือ–ตะวันออกเฉียงใต้",len:"ยาวกว่า 200 กิโลเมตร",provinces:"ตาก · กำแพงเพชร · แม่ฮ่องสอน",
+ sense:"เหลื่อมขวา ร่วมกับรอยเลื่อนปกติ",gmap:"Mae Sot Tak Thailand",
+ desc:"วางตัวตามแนวชายแดนไทย–เมียนมา บริเวณลุ่มน้ำเมย พาดผ่านจังหวัดตากและกำแพงเพชร มีความยาวต่อเนื่องกันมาก",
+ event:"ปี 2518 เกิดแผ่นดินไหวที่จังหวัดตาก ขนาด 5.6 ประชาชนรู้สึกได้หลายจังหวัดในภาคเหนือ รวมทั้งกรุงเทพมหานคร"},
+{id:6,name:"รอยเลื่อนแม่ทา",en:"Mae Tha Fault",region:"north",risk:"medium",
+ coords:[[18.35,99.15],[18.60,99.32],[18.85,99.48]],
+ trend:"ตะวันออกเฉียงเหนือ–ตะวันตกเฉียงใต้",len:"ประมาณ 100 กิโลเมตร",provinces:"เชียงใหม่ · ลำพูน · เชียงราย",
+ sense:"รอยเลื่อนปกติ (Normal)",gmap:"Mae Tha Lamphun Thailand",
+ desc:"พาดผ่านพื้นที่อำเภอแม่ทา จังหวัดลำพูน และพื้นที่ใกล้เคียงในจังหวัดเชียงใหม่–เชียงราย อยู่ใกล้แอ่งเชียงใหม่–ลำพูน",
+ event:"ปี 2562 เกิดแผ่นดินไหวที่จังหวัดเชียงใหม่ ขนาด 4.1 ประชาชนรู้สึกได้ทั่วจังหวัด"},
+{id:7,name:"รอยเลื่อนพะเยา",en:"Phayao Fault",region:"north",risk:"high",
+ coords:[[19.02,99.78],[19.28,99.92],[19.52,100.08]],
+ trend:"เหนือ–ใต้",len:"ประมาณ 120 กิโลเมตร",provinces:"พะเยา · เชียงราย · ลำปาง",
+ sense:"เหลื่อมซ้าย — แสดงผารอยเลื่อนหลายแนวต่อเนื่องเป็นแนวตรง",gmap:"Phayao Thailand",
+ desc:"พาดผ่านจังหวัดพะเยา เชียงราย และลำปาง มีความยาวประมาณ 120 กิโลเมตร ใกล้กับแอ่งพะเยาและแอ่งเชียงราย",
+ event:"ปี 2562 เกิดแผ่นดินไหวที่จังหวัดลำปาง ขนาด 4.9"},
+{id:8,name:"รอยเลื่อนแม่ลาว",en:"Mae Lao Fault",region:"north",risk:"high",
+ coords:[[19.72,99.62],[19.86,99.80],[19.98,100.00]],
+ trend:"ตะวันออกเฉียงเหนือ–ตะวันตกเฉียงใต้",len:"ประมาณ 40–60 กิโลเมตร",provinces:"เชียงราย",
+ sense:"เหลื่อมซ้าย",gmap:"Mae Lao Chiang Rai Thailand",
+ desc:"รอยเลื่อนสั้นแต่มีความสำคัญสูง พาดผ่านอำเภอแม่ลาวและพื้นที่ใกล้เคียงในจังหวัดเชียงราย เป็นรอยเลื่อนที่ทำให้เกิดแผ่นดินไหวครั้งใหญ่ที่สุดของไทยในรอบกว่า 50 ปี",
+ event:"ปี 2557 เกิดแผ่นดินไหวขนาดประมาณ 6.1 บริเวณอำเภอแม่ลาว จังหวัดเชียงราย หลังคาบ้านเรือน วัด และอาคารหลายแห่งเสียหาย มีรอยแตกบนผิวดินหลายจุด"},
+{id:9,name:"รอยเลื่อนปัว",en:"Pua Fault",region:"north",risk:"high",
+ coords:[[19.08,100.58],[19.28,100.74],[19.45,100.92]],
+ trend:"ตะวันออกเฉียงเหนือ–ตะวันตกเฉียงใต้",len:"ประมาณ 70–90 กิโลเมตร",provinces:"น่าน",
+ sense:"รอยเลื่อนปกติ (Normal) วางตัวเป็นแนวยาว",gmap:"Pua Nan Thailand",
+ desc:"พาดผ่านอำเภอปัวและพื้นที่ตอนบนของจังหวัดน่าน จัดเป็นรอยเลื่อนปกติที่มีการวางตัวเป็นแนวยาว เป็นรอยเลื่อนที่ต้องเฝ้าระวัง",
+ event:"ปี 2478 เกิดแผ่นดินไหวขนาด 6.5 บริเวณรอยต่อของประเทศไทยกับ สปป.ลาว"},
+{id:10,name:"รอยเลื่อนเถิน",en:"Thoen Fault",region:"north",risk:"high",
+ coords:[[18.14,100.14],[17.90,99.90],[17.62,99.62],[17.35,99.40],[17.15,99.22]],
+ trend:"ตะวันออกเฉียงเหนือ–ตะวันตกเฉียงใต้",len:"ประมาณ 130 กิโลเมตร",provinces:"แพร่ · ลำปาง",
+ sense:"เหลื่อมซ้าย — มีหน้าผาสามเหลี่ยมและลำน้ำที่ถูกตัดเหลื่อม",gmap:"Thoen Lampang Thailand",
+ desc:"พาดผ่านอำเภอเมืองแพร่ สูงเม่น ลอง วังชิ้น จังหวัดแพร่ ต่อเนื่องไปอำเภอแม่ทะ สบปราบ และเถิน จังหวัดลำปาง ปรากฏหลักฐานทางธรณีสัณฐานชัดเจน",
+ event:"18 กุมภาพันธ์ 2562 เวลา 03.47 น. เกิดแผ่นดินไหวขนาด 3.4 ระดับความลึก 4 กิโลเมตร จุดศูนย์กลางบริเวณอำเภอสอง จังหวัดแพร่ — และจากการศึกษาชั้นตะกอนพบว่าเคยเกิดแผ่นดินไหวขนาดประมาณ 6.6 เมื่อราว 2,000 ปีก่อน บริเวณบ้านปางงุ้น ตำบลแม่สรอย อำเภอวังชิ้น"},
+{id:11,name:"รอยเลื่อนอุตรดิตถ์",en:"Uttaradit Fault",region:"north",risk:"medium",
+ coords:[[17.60,100.02],[17.38,100.16],[17.12,100.32]],
+ trend:"ตะวันออกเฉียงเหนือ–ตะวันตกเฉียงใต้",len:"ประมาณ 100 กิโลเมตร",provinces:"อุตรดิตถ์",
+ sense:"รอยเลื่อนปกติ (Normal)",gmap:"Uttaradit Thailand",
+ desc:"พาดผ่านจังหวัดอุตรดิตถ์และพื้นที่ใกล้เคียงในภาคเหนือตอนล่าง จัดเป็นรอยเลื่อนที่มีการวางตัวในแนวตะวันออกเฉียงเหนือ–ตะวันตกเฉียงใต้",
+ event:"ปี 2541 เกิดแผ่นดินไหวบริเวณอำเภอท่าปลา จังหวัดอุตรดิตถ์ ขนาด 3.2 ประชาชนรู้สึกได้ในหลายอำเภอ"},
+{id:12,name:"รอยเลื่อนเพชรบูรณ์",en:"Phetchabun Fault",region:"central",risk:"medium",
+ coords:[[16.55,101.12],[16.25,101.06],[15.90,100.98],[15.60,100.88]],
+ trend:"เหนือ–ใต้",len:"ประมาณ 120 กิโลเมตร",provinces:"เพชรบูรณ์ · เลย",
+ sense:"รอยเลื่อนปกติ — เอียงเทเข้าหากลางแอ่งทั้งสองด้าน",gmap:"Phetchabun Thailand",
+ desc:"พาดผ่านจังหวัดเพชรบูรณ์และเลย วางตัวในทิศเหนือ–ใต้ ขนาบสองข้างของแอ่งที่ราบเพชรบูรณ์",
+ event:"ปี 2533 เกิดแผ่นดินไหวที่จังหวัดเพชรบูรณ์ ขนาด 4.0"},
+{id:13,name:"รอยเลื่อนศรีสวัสดิ์",en:"Si Sawat Fault",region:"central",risk:"high",
+ coords:[[14.92,98.82],[14.62,98.98],[14.35,99.14]],
+ trend:"ตะวันตกเฉียงเหนือ–ตะวันออกเฉียงใต้",len:"ประมาณ 100 กิโลเมตร",provinces:"กาญจนบุรี · สุพรรณบุรี · อุทัยธานี · ตาก",
+ sense:"รอยเลื่อนปกติ",gmap:"Si Sawat Kanchanaburi Thailand",
+ desc:"พาดผ่านจังหวัดกาญจนบุรี สุพรรณบุรี อุทัยธานี และตาก อยู่ใกล้แนวต่อเนื่องกับรอยเลื่อนเจดีย์สามองค์",
+ event:"ปี 2526 เกิดแผ่นดินไหวขนาด 5.9 ใกล้บริเวณอ่างเก็บน้ำเขื่อนศรีนครินทร์ สามารถรับรู้แรงสั่นสะเทือนได้ถึงกรุงเทพมหานคร"},
+{id:14,name:"รอยเลื่อนเจดีย์สามองค์",en:"Chedi Sam Ong Fault",region:"central",risk:"high",
+ coords:[[15.32,98.34],[14.90,98.60],[14.45,98.90],[13.95,99.20],[13.40,99.45],[12.75,99.68]],
+ trend:"ตะวันตกเฉียงเหนือ–ตะวันออกเฉียงใต้",len:"ยาวกว่า 300 กิโลเมตร",provinces:"กาญจนบุรี · ประจวบคีรีขันธ์ · อุทัยธานี",
+ sense:"เหลื่อมขวา ร่วมกับรอยเลื่อนปกติ",gmap:"Three Pagodas Pass Kanchanaburi Thailand",
+ desc:"รอยเลื่อนขนาดใหญ่ที่ต่อเนื่องยาวมาก อยู่ด้านทิศตะวันตกของประเทศไทย เริ่มจากชายแดนไทย–เมียนมาบริเวณด่านเจดีย์สามองค์ ลงมาจนถึงจังหวัดประจวบคีรีขันธ์",
+ event:"เกิดแผ่นดินไหวครั้งล่าสุดประมาณ 1,000 ปีที่แล้ว ที่จังหวัดกาญจนบุรี ขนาด 6.4"},
+{id:15,name:"รอยเลื่อนระนอง",en:"Ranong Fault",region:"south",risk:"high",
+ coords:[[10.60,98.62],[10.30,98.78],[9.98,98.95],[9.70,99.12]],
+ trend:"ตะวันออกเฉียงเหนือ–ตะวันตกเฉียงใต้",len:"ยาวกว่า 250 กิโลเมตร",provinces:"ระนอง · ชุมพร · ประจวบคีรีขันธ์ · พังงา",
+ sense:"เหลื่อมซ้าย",gmap:"Ranong Thailand",
+ desc:"พาดผ่านจังหวัดระนอง ชุมพร ประจวบคีรีขันธ์ และพังงา ต่อเนื่องลงทางใต้ เป็นรอยเลื่อนสำคัญของภาคใต้ตอนบน ใกล้พื้นที่ชายฝั่งทะเลอันดามัน",
+ event:"ปี 2549 เกิดแผ่นดินไหวที่จังหวัดประจวบคีรีขันธ์ ขนาด 5.0 ประชาชนในหลายท้องที่รู้สึกได้ถึงแรงสั่นสะเทือนพื้นดิน"},
+{id:16,name:"รอยเลื่อนคลองมะรุ่ย",en:"Khlong Marui Fault",region:"south",risk:"high",
+ coords:[[9.25,98.40],[8.95,98.68],[8.60,98.95],[8.35,99.15]],
+ trend:"ตะวันออกเฉียงเหนือ–ตะวันตกเฉียงใต้",len:"ยาวกว่า 200 กิโลเมตร",provinces:"สุราษฎร์ธานี · กระบี่ · พังงา · ภูเก็ต",
+ sense:"เหลื่อมซ้าย — วางตัวขนานกับกลุ่มรอยเลื่อนระนอง",gmap:"Khlong Marui Phang Nga Thailand",
+ desc:"พาดผ่านจังหวัดสุราษฎร์ธานี กระบี่ พังงา และภูเก็ต เป็นกลุ่มรอยเลื่อนตามแนวระนาบที่วางตัวขนานกับกลุ่มรอยเลื่อนระนองแบบเหลื่อมซ้าย",
+ event:"ปี 2558 เกิดแผ่นดินไหวที่จังหวัดพังงา ขนาด 4.5 ซึ่งประชาชนในพื้นที่รับรู้แรงสั่นสะเทือนได้"}
+];
+
+/* =========================================================
+   ⭐ เหตุการณ์สำคัญ (ขยายเนื้อหา + รูปประกอบ)
+   ========================================================= */
+var EVENTS = [
+
+/* ---------- 1 ---------- */
+{id:1,
+ title:"แผ่นดินไหว อ.แม่ลาว จ.เชียงราย พ.ศ. 2557",
+ sub:"รอยเลื่อนแม่ลาว · ขนาด 6.1 · ความรุนแรงสูงสุดของไทยในรอบ 50 ปี",
+ body:
+  '<div class="ev-facts">'
+  + '<div><span>วันที่เกิด</span><b>5 พฤษภาคม 2557</b></div>'
+  + '<div><span>เวลา</span><b>18.08 น.</b></div>'
+  + '<div><span>ขนาด</span><b>6.1</b></div>'
+  + '<div><span>ความลึก</span><b>ประมาณ 7 กม.</b></div>'
+  + '<div><span>ศูนย์กลาง</span><b>อ.แม่ลาว จ.เชียงราย</b></div>'
+  + '<div><span>รอยเลื่อน</span><b>รอยเลื่อนแม่ลาว</b></div>'
+  + '</div>'
+  + '<p>วันที่ <b>5 พฤษภาคม 2557 เวลา 18.08 น.</b> เกิดแผ่นดินไหวขนาด <b>6.1</b> '
+  + 'จุดศูนย์กลางบริเวณ <b>กลุ่มรอยเลื่อนแม่ลาว</b> อำเภอแม่ลาว จังหวัดเชียงราย '
+  + 'ระดับความลึกตื้นเพียงประมาณ 7 กิโลเมตร ทำให้ผิวดินโดยรอบเกิดความเสียหายอย่างหนัก</p>'
+
+ 
+  + '<h6>รอยเลื่อนที่ทำให้เกิด</h6>'
+  + '<p>รอยเลื่อนแม่ลาวเป็นรอยเลื่อนตามแนวระนาบแบบ <b>เหลื่อมซ้าย (Left-lateral Strike-Slip)</b> '
+  + 'วางตัวยาวกว่า 40 กิโลเมตร ในแนวตะวันออกเฉียงเหนือ–ตะวันตกเฉียงใต้ '
+  + 'ก่อนเกิดเหตุเคยมีรายงานแผ่นดินไหวขนาดเล็กในพื้นที่มาแล้วหลายครั้ง</p>'
+
+  + '<h6>ผลกระทบและความเสียหาย</h6>'
+  + '<ul>'
+  + '<li>บ้านเรือนเสียหายกว่า <b>15,000 หลัง</b> โรงเรียนและสถานพยาบาลหลายแห่งเสียหาย</li>'
+  + '<li>วัดและโบราณสถานในจังหวัดเชียงรายเสียหายมากกว่า <b>40 แห่ง</b> เช่น พระธาตุเจดีย์ วัดร่องขุ่น และวัดต่าง ๆ ในอำเภอแม่ลาว</li>'
+  + '<li>มีผู้ได้รับบาดเจ็บ<b>มากกว่า 20 คน</b> และมีผู้เสียชีวิต</li>'
+  + '<li>เกิด<b>รอยแตกบนผิวดิน</b>เป็นแนวยาวหลายกิโลเมตร ปากปล่องน้ำผุด และดินทรุดตัวในหลายตำบล</li>'
+  + '<li>ตามมาด้วย<b>อาฟเตอร์ช็อกมากกว่า 1,000 ครั้ง</b>ภายในสัปดาห์แรก</li>'
+  + '<li>ประชาชนในภาคเหนือและจังหวัดใกล้เคียงรับรู้แรงสั่นสะเทือนได้อย่างชัดเจน</li>'
+  + '</ul>'
+
+  + '<div class="ev-note">'
+  + '<b>บทเรียนสำคัญ:</b> เหตุการณ์นี้ทำให้สังคมไทยตระหนักว่าแผ่นดินไหวขนาดใหญ่เกิดขึ้นได้ในประเทศ '
+  + 'และนำไปสู่การทบทวนมาตรฐานการก่อสร้างอาคารในพื้นที่เสี่ยง การจัดทำแผนที่รอยเลื่อนมีพลังที่ละเอียดขึ้น '
+  + 'และการฝึกซ้อมอพยพในสถานศึกษา'
+  + '</div>'
+},
+
+/* ---------- 2 ---------- */
+{id:2,
+ title:"แผ่นดินไหว อ.พร้าว จ.เชียงใหม่ พ.ศ. 2538",
+ sub:"รอยเลื่อนเวียงป่าเป้า • ขนาด 5.2 • สั่นสะเทือนครอบคลุมหลายจังหวัดในภาคเหนือ",
+ body:
+  '<div class="ev-facts">'
+  + '<div><span>วันที่เกิด</span><b>21 ธันวาคม 2538</b></div>'
+  + '<div><span>เวลา</span><b>00.22 น.</b></div>'
+  + '<div><span>ขนาด</span><b>5.2</b></div>'
+  + '<div><span>ความลึก</span><b>10 กิโลเมตร</b></div>'
+  + '<div><span>ศูนย์กลาง</span><b>อ.พร้าว จ.เชียงใหม่</b></div>'
+  + '<div><span>รอยเลื่อน</span><b>รอยเลื่อนเวียงป่าเป้า</b></div>'
+  + '</div>'
+  + '<p>วันที่ <b>21 ธันวาคม 2538 เวลา 00.22 น.</b> เกิดแผ่นดินไหวขนาด <b>5.2</b> '
+  + 'ระดับความลึก 10 กิโลเมตร จุดศูนย์กลางบริเวณอำเภอพร้าว จังหวัดเชียงใหม่ '
+  + 'สาเหตุจากการเลื่อนตัวตามแนวระนาบแบบ <b>เหลื่อมซ้าย</b> ของ <b>กลุ่มรอยเลื่อนเวียงป่าเป้า</b></p>'
+
+  
+
+  + '<h6>รอยเลื่อนที่ทำให้เกิด</h6>'
+  + '<p>รอยเลื่อนเวียงป่าเป้าเป็นรอยเลื่อนตามแนวระนาบแบบ<b>เหลื่อมขวา (Right-lateral Strike-Slip)</b> พาดผ่านอำเภอเมืองแพร่ สูงเม่น ลอง วังชิ้น จังหวัดแพร่ '
+  + 'ซึ่งวางตัวตามแนวทิศเหนือ–ใต้ถึงตะวันออกเฉียงเหนือ–ตะวันตกเฉียงใต้ ถือเป็นแขนงพาดผ่านพื้นที่รอยต่อระหว่าง จ.เชียงใหม่ และ จ.เชียงราย มีพลังงานสะสมสูงในอดีต '
+  + ' '
+
+  + '<h6>ผลกระทบและความเสียหาย</h6>'
+  + '<ul>'
+  + '<li><b>อาคารและสิ่งก่อสร้าง </b>อาคารเรียน โรงเรียน บ้านเรือนประชาชน และสถานที่ราชการในพื้นที่ อ.พร้าว เกิดรอยแตกร้าวที่ผนังและโครงสร้าง</li>'
+  + '<li><b>การรับรู้แรงสั่นสะเทือน </b>ประชาชนในหลายจังหวัดของภาคเหนือ ได้แก่ เชียงใหม่, เชียงราย, ลำพูน, ลำปาง, พะเยา และแม่ฮ่องสอน <b>เชียงใหม่, เชียงราย, ลำพูน, ลำปาง, พะเยา และแม่ฮ่องสอน</b>รับรู้ถึงแรงสั่นสะเทือนได้อย่างชัดเจนจนต้องตื่นตกใจลุกขึ้นมาหนีออกจากอาคารบ้านเรือนกลางดึก</li>'
+  + '<li><b>อาฟเตอร์ช็อก</b> มีแผ่นดินไหวขนาดเล็ก (Aftershocks) ตามมาอีกหลายครั้งในสัปดาห์แรก สร้างความตื่นตระหนกให้แก่ประชาชนในพื้นที่ใกล้เคียง</li>'
+  +'</ul>'
+
+  + '<div class="ev-note">'
+  + '<b>บทเรียนสำคัญ:</b> เหตุการณ์นี้นับเป็นหนึ่งในแผ่นดินไหวบนบกขนาดเกิน 5.0 ในยุคแรกๆ ที่ได้รับการบันทึกไว้อย่างชัดเจนในภาคเหนือของไทย'
+  + 'ทำให้หน่วยงานด้านธรณีวิทยาเร่งสำรวจและจัดทำแผนที่กลุ่มรอยเลื่อนมีพลังในเขตภาคเหนือตอนบนอย่างเป็นระบบมากขึ้น'
+  + '</div>'
+},
+
+/* ---------- 3 ---------- */
+{id:3,
+ title:"แผ่นดินไหว ทาร์เลย์–ชายแดนไทย พ.ศ. 2554",
+ sub:"รอยเลื่อนแม่จัน · ขนาด 6.8 · แรงสั่นสะเทือนถึงเชียงราย",
+ body:
+  '<div class="ev-facts">'
+  + '<div><span>วันที่เกิด</span><b>24 มีนาคม 2554</b></div>'
+  + '<div><span>เวลา</span><b>20.25 น. (เวลาไทย)</b></div>'
+  + '<div><span>ขนาด</span><b>6.8</b></div>'
+  + '<div><span>ความลึก</span><b>ประมาณ 10 กม.</b></div>'
+  + '<div><span>ศูนย์กลาง</span><b>เมืองทาร์เลย์ เมียนมา</b></div>'
+  + '<div><span>รอยเลื่อน</span><b>รอยเลื่อนแม่จัน (อิทธิพลต่อเนื่อง)</b></div>'
+  + '</div>'
+  + '<p>วันที่ <b>24 มีนาคม 2554</b> เกิดแผ่นดินไหวขนาดประมาณ <b>6.8</b> ที่เมืองทาร์เลย์ ประเทศเมียนมา '
+  + 'ห่างจากชายแดนไทย–เมียนมาประมาณ 20 กิโลเมตร '
+  + 'บริเวณอิทธิพลต่อเนื่องของ <b>กลุ่มรอยเลื่อนแม่จัน</b></p>'
+
+ 
+
+  + '<h6>ผลกระทบในประเทศไทย</h6>'
+  + '<ul>'
+  + '<li>เกิดแรงสั่นสะเทือนรุนแรงใน<b>อำเภอแม่จัน แม่สาย และเชียงแสน</b> จังหวัดเชียงราย</li>'
+  + '<li>อาคารบ้านเรือนและ<b>วัดหลายแห่ง</b>ได้รับความเสียหาย โดยเฉพาะยอดเจดีย์และโครงสร้างเก่าแก่</li>'
+  + '<li>ประชาชนใน<b>จังหวัดเชียงใหม่ ลำปาง พะเยา</b> และจังหวัดภาคเหนืออื่น ๆ รู้สึกได้</li>'
+  + '<li>มีผู้ได้รับบาดเจ็บและมีผู้เสียชีวิตในฝั่งเมียนมา จากอาคารและสะพานที่พังถล่ม</li>'
+  + '</ul>'
+
+  + '<h6>ทำไมเรื่องนี้สำคัญ</h6>'
+  + '<p>เหตุการณ์นี้ชี้ชัดว่า <b>แผ่นดินไหวจากประเทศเพื่อนบ้านส่งผลถึงไทยได้โดยตรง</b> '
+  + 'และแนวรอยเลื่อนในเขตชายแดนมีอิทธิพลต่อภาคเหนือตอนบน '
+  + 'ทำให้หน่วยงานไทยต้องติดตามข้อมูลแผ่นดินไหวในเมียนมาอย่างต่อเนื่อง</p>'
+},
+
+/* ---------- 4 ---------- */
+{id:4,
+ title:"ร่องรอยแผ่นดินไหวโบราณ บ้านปางงุ้น จ.แพร่",
+ sub:"รอยเลื่อนเถิน · ขนาดประมาณ 6.6 · เกิดเมื่อราว 2,000 ปีก่อน",
+ body:
+  '<div class="ev-facts">'
+  + '<div><span>ประเภทหลักฐาน</span><b>ร่องสำรวจ (Trench)</b></div>'
+  + '<div><span>สถานที่</span><b>บ้านปางงุ้น ต.แม่สรอย อ.วังชิ้น จ.แพร่</b></div>'
+  + '<div><span>อายุเหตุการณ์</span><b>ราว 2,000 ปีก่อน</b></div>'
+  + '<div><span>ขนาดที่ประเมิน</span><b>ประมาณ 6.6</b></div>'
+  + '<div><span>รอยเลื่อน</span><b>รอยเลื่อนเถิน</b></div>'
+  + '<div><span>วิธีวิเคราะห์</span><b>OSL Dating / คาร์บอนกัมมันตรังสี</b></div>'
+  + '</div>'
+  + '<p>หลักฐานทางธรณีวิทยาจากการขุด <b>ร่องสำรวจ (Trench)</b> ศึกษาชั้นตะกอน '
+  + 'บริเวณบ้านปางงุ้น ตำบลแม่สรอย อำเภอวังชิ้น จังหวัดแพร่ '
+  + 'พบร่องรอยการเลื่อนตัวของ <b>กลุ่มรอยเลื่อนเถิน</b> ที่ทำให้ชั้นดินถูกตัดและเลื่อนออกจากกัน</p>'
+
+ 
+
+  + '<h6>วิธีอ่านอดีตจากชั้นดิน</h6>'
+  + '<ul>'
+  + '<li>ขุดร่องลึกลงไปถึงชั้นตะกอนที่สะสมตัวมาเป็นพันปี</li>'
+  + '<li>สังเกต<b>รอยตัดของชั้นดิน</b>ที่เกิดจากการเลื่อนตัวของรอยเลื่อน</li>'
+  + '<li>เก็บตัวอย่างตะกอนไปวิเคราะห์อายุด้วยวิธี <b>Optically Stimulated Luminescence (OSL)</b> และคาร์บอนกัมมันตรังสี</li>'
+  + '<li>คำนวณระยะเวลาระหว่างเหตุการณ์แต่ละครั้ง → ได้ <b>คาบอุบัติซ้ำ</b></li>'
+  + '</ul>'
+
+  + '<h6>ข้อสรุปที่ได้</h6>'
+  + '<p>เหตุการณ์ครั้งนั้นมีขนาดประมาณ <b>6.6</b> และเกิดเมื่อราว <b>2,000 ปีก่อน</b> '
+  + 'หลักฐานนี้เป็นกุญแจสำคัญที่ทำให้นักธรณีวิทยา<b>ประเมินคาบอุบัติซ้ำ</b>ของรอยเลื่อนเถิน '
+  + 'และใช้ประเมินความเสี่ยงแผ่นดินไหวในอนาคตของภาคเหนือตอนล่าง</p>'
+
+  + '<div class="ev-note">'
+  + '<b>ทำไมต้องศึกษา?</b> แผ่นดินไหวขนาดใหญ่มีรอบการเกิดที่ยาวนานมาก อาจห่างกันเป็นพันปี '
+  + 'การศึกษาร่องสำรวจจึงเป็นวิธีเดียวที่ทำให้เรารู้ว่า “อดีตเคยเกิดอะไร” และ “อนาคตอาจเกิดอะไรอีก”'
+  + '</div>'
+},
+
+/* ---------- 5 ---------- */
+{id:5,
+ title:"แผ่นดินไหวกับรอยเลื่อนเจดีย์สามองค์ จ.กาญจนบุรี",
+ sub:"รอยเลื่อนเจดีย์สามองค์ · ขนาดประมาณ 6.4 · เกิดเมื่อราว 1,000 ปีก่อน",
+ body:
+  '<div class="ev-facts">'
+  + '<div><span>รอยเลื่อน</span><b>เจดีย์สามองค์</b></div>'
+  + '<div><span>ความยาว</span><b>ยาวกว่า 300 กิโลเมตร</b></div>'
+  + '<div><span>ทิศทาง</span><b>ตะวันตกเฉียงเหนือ–ตะวันออกเฉียงใต้</b></div>'
+  + '<div><span>การเคลื่อนตัว</span><b>เหลื่อมขวา</b></div>'
+  + '<div><span>ขนาดครั้งล่าสุด</span><b>ประมาณ 6.4</b></div>'
+  + '<div><span>อายุเหตุการณ์</span><b>ราว 1,000 ปีก่อน</b></div>'
+  + '</div>'
+  + '<p><b>กลุ่มรอยเลื่อนเจดีย์สามองค์</b> เป็นรอยเลื่อนขนาดใหญ่ที่สุดกลุ่มหนึ่งของไทย '
+  + 'วางตัวยาวกว่า <b>300 กิโลเมตร</b> จากชายแดนไทย–เมียนมาบริเวณด่านเจดีย์สามองค์ '
+  + 'ลงมาถึงจังหวัดประจวบคีรีขันธ์ มีการเลื่อนตัวแบบ <b>เหลื่อมขวา (Right-lateral)</b></p>'
+
+  
+
+  + '<h6>ร่องรอยทางธรณีวิทยา</h6>'
+  + '<ul>'
+  + '<li>พบ<b>หน้าผาสามเหลี่ยม</b>และ<b>หุบเขารูปตัว V</b>ตามแนวรอยเลื่อน</li>'
+  + '<li>ลำน้ำหลายสายถูกตัดเหลื่อมอย่างเห็นได้ชัด</li>'
+  + '<li>มีแอ่งทรุดตัวและเนินดินยกตัวตามแนวเป็นแนวยาว</li>'
+  + '<li>มีรายงานแผ่นดินไหวขนาดเล็กถึงปานกลางเป็นระยะในเขตจังหวัดกาญจนบุรี</li>'
+  + '</ul>'
+
+  + '<h6>ความสำคัญต่อพื้นที่กรุงเทพฯ และภาคกลาง</h6>'
+  + '<p>เนื่องจากรอยเลื่อนนี้วางตัวอยู่ทางด้านตะวันตกของประเทศและยาวต่อเนื่องมาทางใต้ '
+  + 'จึงมีความสำคัญต่อการประเมินความเสี่ยงในพื้นที่<b>กรุงเทพมหานครและปริมณฑล</b> '
+  + 'โดยเฉพาะผลกระทบต่อ<b>ดินอ่อน</b>ที่อาจขยายแรงสั่นสะเทือนให้รุนแรงขึ้น</p>'
+},
+
+/* ---------- 6 ---------- */
+{id:6,
+ title:"แผ่นดินไหวกับรอยเลื่อนระนอง–คลองมะรุ่ย ภาคใต้",
+ sub:"รอยเลื่อนระนอง · คลองมะรุ่ย · ขนาด 4.5–5.0",
+ body:
+  '<div class="ev-facts">'
+  + '<div><span>รอยเลื่อน</span><b>ระนอง · คลองมะรุ่ย</b></div>'
+  + '<div><span>ความยาวรวม</span><b>200–250 กิโลเมตร</b></div>'
+  + '<div><span>การเคลื่อนตัว</span><b>เหลื่อมซ้าย</b></div>'
+  + '<div><span>เหตุการณ์ 2549</span><b>จ.ประจวบคีรีขันธ์ · ขนาด 5.0</b></div>'
+  + '<div><span>เหตุการณ์ 2558</span><b>จ.พังงา · ขนาด 4.5</b></div>'
+  + '<div><span>ความเสี่ยงเสริม</span><b>สึนามิ (ชายฝั่งอันดามัน)</b></div>'
+  + '</div>'
+  + '<p><b>กลุ่มรอยเลื่อนระนอง</b> และ <b>กลุ่มรอยเลื่อนคลองมะรุ่ย</b> เป็นรอยเลื่อนมีพลังสำคัญของภาคใต้ '
+  + 'วางตัวยาวกว่า <b>200–250 กิโลเมตร</b> ผ่านจังหวัดระนอง ชุมพร ประจวบคีรีขันธ์ พังงา กระบี่ และภูเก็ต '
+  + 'มีการเลื่อนตัวแบบ <b>เหลื่อมซ้าย</b> วางตัวขนานกันในแนวตะวันออกเฉียงเหนือ–ตะวันตกเฉียงใต้</p>'
+
+  
+
+  + '<h6>เหตุการณ์ที่บันทึกไว้</h6>'
+  + '<ul>'
+  + '<li><b>พ.ศ. 2549</b> — เกิดแผ่นดินไหวที่จังหวัดประจวบคีรีขันธ์ ขนาด <b>5.0</b> '
+  + 'ประชาชนในหลายท้องที่รู้สึกได้ถึงแรงสั่นสะเทือนบนพื้นดิน</li>'
+  + '<li><b>พ.ศ. 2558</b> — เกิดแผ่นดินไหวที่จังหวัดพังงา ขนาด <b>4.5</b> '
+  + 'ประชาชนในพื้นที่และนักท่องเที่ยวรับรู้แรงสั่นสะเทือนได้</li>'
+  + '<li>มีรายงานแผ่นดินไหวขนาดเล็กต่อเนื่องในจังหวัดระนองและชุมพรเป็นระยะ</li>'
+  + '</ul>'
+
+  + '<h6>ความเสี่ยงสองชั้นในภาคใต้</h6>'
+  + '<p>เนื่องจากรอยเลื่อนกลุ่มนี้อยู่ใกล้<b>ชายฝั่งทะเลอันดามัน</b> '
+  + 'การวางแผนป้องกันภัยในพื้นที่จึงต้องพิจารณาทั้ง '
+  + '<b>(1) แผ่นดินไหวจากรอยเลื่อนในแผ่นดิน</b> และ '
+  + '<b>(2) ความเสี่ยงสึนามิจากแผ่นดินไหวในทะเล</b> ประกอบกัน</p>'
+
+  + '<div class="ev-note">'
+  + '<b>เตรียมพร้อม:</b> ผู้ที่อาศัยหรือท่องเที่ยวในพื้นที่ชายฝั่งภาคใต้ '
+  + 'ควรรู้เส้นทางอพยพขึ้นที่สูง และหากรู้สึกถึงแรงสั่นสะเทือนรุนแรงหรือเห็นน้ำทะเลลดลงผิดปกติ '
+  + 'ให้รีบขึ้นที่สูงทันทีโดยไม่ต้องรอประกาศ'
+  + '</div>'
+},
+
+/* ---------- 7 ---------- */
+{id:7,
+ title:"แผ่นดินไหว จ.ตาก พ.ศ. 2518",
+ sub:"รอยเลื่อนเมย · ขนาด 5.6 · รู้สึกได้ถึงกรุงเทพมหานคร",
+ body:
+  '<div class="ev-facts">'
+  + '<div><span>ปีที่เกิด</span><b>พ.ศ. 2518</b></div>'
+  + '<div><span>ขนาด</span><b>5.6</b></div>'
+  + '<div><span>ศูนย์กลาง</span><b>จ.ตาก</b></div>'
+  + '<div><span>รอยเลื่อน</span><b>รอยเลื่อนเมย</b></div>'
+  + '<div><span>ทิศทาง</span><b>ตะวันตกเฉียงเหนือ–ตะวันออกเฉียงใต้</b></div>'
+  + '<div><span>การเคลื่อนตัว</span><b>เหลื่อมขวา ร่วมกับรอยเลื่อนปกติ</b></div>'
+  + '</div>'
+  + '<p><b>รอยเลื่อนเมย</b> วางตัวตามแนวชายแดนไทย–เมียนมา บริเวณลุ่มน้ำเมย '
+  + 'พาดผ่านจังหวัดตากและกำแพงเพชร มีความยาวต่อเนื่องกันมากกว่า <b>200 กิโลเมตร</b></p>'
+
+  
+
+  + '<h6>รายละเอียดเหตุการณ์</h6>'
+  + '<p>แผ่นดินไหวขนาด <b>5.6</b> ที่จังหวัดตากในปี <b>2518</b> เป็นเหตุการณ์ที่แสดงให้เห็นว่า '
+  + 'รอยเลื่อนนี้ยังมีพลังและสามารถสร้างแรงสั่นสะเทือนที่รับรู้ได้ในวงกว้าง '
+  + 'ประชาชนรับรู้แรงสั่นสะเทือนได้หลายจังหวัดในภาคเหนือ รวมทั้ง<b>กรุงเทพมหานคร</b></p>'
+
+  + '<h6>ลักษณะเด่นของรอยเลื่อนเมย</h6>'
+  + '<ul>'
+  + '<li>มีอัตราการเลื่อนตัวช้าประมาณ <b>0.5–1 มิลลิเมตรต่อปี</b></li>'
+  + '<li>วางตัวในแนวตะวันตกเฉียงเหนือ–ตะวันออกเฉียงใต้</li>'
+  + '<li>อยู่ตามแนวลุ่มน้ำเมยซึ่งเป็นแนวพรมแดนธรรมชาติระหว่างไทยกับเมียนมา</li>'
+  + '<li>มีรายงานแผ่นดินไหวขนาดเล็กจากฝั่งเมียนมาส่งแรงสั่นสะเทือนมาถึงไทยอยู่บ่อยครั้ง</li>'
+  + '</ul>'
+},
+
+/* ---------- 8 ---------- */
+{id:8,
+ title:"แผ่นดินไหว จ.ลำปาง พ.ศ. 2562",
+ sub:"รอยเลื่อนพะเยา · ขนาด 4.9 · รับรู้ได้ในหลายจังหวัดภาคเหนือ",
+ body:
+  '<div class="ev-facts">'
+  + '<div><span>ปีที่เกิด</span><b>พ.ศ. 2562</b></div>'
+  + '<div><span>ขนาด</span><b>4.9</b></div>'
+  + '<div><span>ศูนย์กลาง</span><b>จ.ลำปาง</b></div>'
+  + '<div><span>รอยเลื่อน</span><b>รอยเลื่อนพะเยา</b></div>'
+  + '<div><span>ความยาว</span><b>ประมาณ 120 กิโลเมตร</b></div>'
+  + '<div><span>ทิศทาง</span><b>เหนือ–ใต้</b></div>'
+  + '</div>'
+  + '<p>เกิดแผ่นดินไหวขนาด <b>4.9</b> ที่จังหวัดลำปาง ในปี <b>พ.ศ. 2562</b> '
+  + 'สาเหตุจากการเลื่อนตัวของ <b>กลุ่มรอยเลื่อนพะเยา</b> ซึ่งพาดผ่านจังหวัดพะเยา เชียงราย และลำปาง</p>'
+
+ 
+
+  + '<h6>ลักษณะเด่นของรอยเลื่อนพะเยา</h6>'
+  + '<ul>'
+  + '<li>แสดงลักษณะของ<b>ผารอยเลื่อน (Fault scarp)</b> หลายแนวที่ต่อเนื่องเป็นแนวตรง</li>'
+  + '<li>อยู่ใกล้<b>แอ่งพะเยา</b>และ<b>แอ่งเชียงราย</b> ซึ่งมีรอยเลื่อนหลายแนวพาดผ่าน</li>'
+  + '<li>เป็นรอยเลื่อนที่ทำให้เกิดแผ่นดินไหวเป็นระยะในพื้นที่ภาคเหนือตอนบน</li>'
+  + '<li>ประชาชนในจังหวัดลำปาง พะเยา และเชียงรายรับรู้แรงสั่นสะเทือนได้</li>'
+  + '</ul>'
+
+  + '<div class="ev-note">'
+  + '<b>ข้อสังเกต:</b> แม้ขนาดไม่ใหญ่ แต่เมื่อเกิดในเขตชุมชนหรือใกล้สิ่งปลูกสร้าง '
+  + 'ก็อาจสร้างความตื่นตระหนกและความเสียหายได้ การติดตามข้อมูลจากหน่วยงานที่เชื่อถือได้จึงสำคัญเสมอ'
+  + '</div>'
+},
+
+/* ---------- 9 ---------- */
+{id:9,
+ title:"แผ่นดินไหว เขื่อนศรีนครินทร์ พ.ศ. 2526",
+ sub:"รอยเลื่อนศรีสวัสดิ์ · ขนาด 5.9 · รู้สึกได้ถึงกรุงเทพมหานคร",
+ body:
+  '<div class="ev-facts">'
+  + '<div><span>ปีที่เกิด</span><b>พ.ศ. 2526</b></div>'
+  + '<div><span>ขนาด</span><b>5.9</b></div>'
+  + '<div><span>พื้นที่</span><b>อ่างเก็บน้ำเขื่อนศรีนครินทร์ จ.กาญจนบุรี</b></div>'
+  + '<div><span>รอยเลื่อน</span><b>รอยเลื่อนศรีสวัสดิ์</b></div>'
+  + '<div><span>ความยาว</span><b>ประมาณ 100 กิโลเมตร</b></div>'
+  + '<div><span>การเคลื่อนตัว</span><b>รอยเลื่อนปกติ</b></div>'
+  + '</div>'
+  + '<p>แผ่นดินไหวขนาด <b>5.9</b> ที่เกิดในปี <b>พ.ศ. 2526</b> '
+  + 'ใกล้บริเวณ<b>อ่างเก็บน้ำเขื่อนศรีนครินทร์</b> จังหวัดกาญจนบุรี '
+  + 'สาเหตุจากการเลื่อนตัวของ <b>กลุ่มรอยเลื่อนศรีสวัสดิ์</b></p>'
+
+ 
+
+  + '<h6>รอยเลื่อนศรีสวัสดิ์</h6>'
+  + '<ul>'
+  + '<li>พาดผ่านจังหวัดกาญจนบุรี สุพรรณบุรี อุทัยธานี และตาก</li>'
+  + '<li>อยู่ใกล้แนวต่อเนื่องกับ<b>รอยเลื่อนเจดีย์สามองค์</b></li>'
+  + '<li>มีการเลื่อนตัวแบบ<b>รอยเลื่อนปกติ (Normal Fault)</b></li>'
+  + '<li>ยาวประมาณ 100 กิโลเมตร ในแนวตะวันตกเฉียงเหนือ–ตะวันออกเฉียงใต้</li>'
+  + '</ul>'
+
+  + '<h6>การรับรู้ในวงกว้าง</h6>'
+  + '<p>เหตุการณ์ครั้งนั้นสามารถรับรู้แรงสั่นสะเทือนได้ถึง<b>กรุงเทพมหานคร</b> '
+  + 'สะท้อนว่าแผ่นดินไหวในภาคตะวันตกสามารถส่งผลต่อที่ราบภาคกลางและเมืองหลวงได้ '
+  + 'จึงต้องให้ความสำคัญกับการออกแบบอาคารให้ต้านทานแรงสั่นสะเทือนในเขตเมือง</p>'
+}
+];
+
+function colorOf(f){ return f.risk === 'high' ? '#d6372c' : '#e8913a'; }
+function riskText(f){ return f.risk === 'high' ? 'ความเสี่ยงสูง' : 'ความเสี่ยงปานกลาง'; }
+function regionText(r){ return r==='north' ? 'ภาคเหนือ' : (r==='central' ? 'ภาคกลาง–ตะวันตก' : 'ภาคใต้'); }
+function findFault(id){ for(var i=0;i<FAULTS.length;i++){ if(FAULTS[i].id===id) return FAULTS[i]; } return null; }
+
+/* =========================================================
+   ⭐ GOOGLE MAPS — initMap ต้องเป็น global function
+   ========================================================= */
+var gmap = null;
+var gLines = {};
+var mFilter = 'all';
+
+function initMap(){
+  var el = document.getElementById('mapReal');
+  if(!el || typeof google === 'undefined' || !google.maps) return;
+
+  try{
+    gmap = new google.maps.Map(el, {
+      center: { lat: 14.6, lng: 100.6 },
+      zoom: 6,
+      mapTypeId: 'roadmap',
+      mapTypeControl: true,
+      mapTypeControlOptions: {
+        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+        position: google.maps.ControlPosition.TOP_RIGHT
+      },
+      fullscreenControl: true,
+      streetViewControl: false,
+      scaleControl: true,
+      gestureHandling: 'greedy'
+    });
+  }catch(err){
+    document.getElementById('mapFall').classList.add('on');
+    return;
+  }
+
+  document.getElementById('mapFall').classList.remove('on');
+  var infoWin = new google.maps.InfoWindow();
+
+  [{n:'กรุงเทพมหานคร', c:{lat:13.7563, lng:100.5018}},
+   {n:'เชียงใหม่',      c:{lat:18.7883, lng:98.9853}},
+   {n:'ภูเก็ต',         c:{lat:7.8804,  lng:98.3923}},
+   {n:'ขอนแก่น',        c:{lat:16.4419, lng:102.8360}},
+   {n:'ระนอง',          c:{lat:9.9658,  lng:98.6348}}].forEach(function(ct){
+    var mk = new google.maps.Marker({
+      position: ct.c, map: gmap, title: ct.n,
+      icon: { path: google.maps.SymbolPath.CIRCLE, scale: 6,
+              fillColor:'#2c7cb0', fillOpacity:1,
+              strokeColor:'#fff', strokeWeight:2 },
+      label: { text: ct.n, color:'#1b2b38', fontSize:'11px', fontWeight:'600' }
+    });
+    mk.addListener('click', function(){
+      infoWin.setContent('<div style="font-family:\'IBM Plex Sans Thai\',sans-serif;font-size:13px"><b>' + ct.n + '</b></div>');
+      infoWin.open(gmap, mk);
+    });
+  });
+
+  FAULTS.forEach(function(f){
+    var col = colorOf(f);
+    var path = f.coords.map(function(p){ return { lat:p[0], lng:p[1] }; });
+    var mid  = path[Math.floor(path.length/2)];
+    var q    = encodeURIComponent(f.gmap);
+
+    var popup =
+      '<div style="font-family:\'IBM Plex Sans Thai\',sans-serif;font-size:12.5px;line-height:1.7;max-width:250px">'
+      + '<b style="font-size:13.5px">' + f.id + '. ' + f.name + '</b><br>'
+      + '<span style="color:#7b8b93">' + f.provinces + '</span><br>'
+      + '<span style="color:#7b8b93;font-size:11.5px">' + f.trend + ' · ' + f.len + '</span><br>'
+      + '<span style="color:#7b8b93;font-size:11.5px">การเคลื่อนตัว: ' + f.sense + '</span><br>'
+      + '<span style="color:' + col + ';font-weight:600">' + riskText(f) + '</span><br><br>'
+      + '<a href="#" onclick="openFault(' + f.id + ');return false;" style="color:#cf4413;font-weight:600;text-decoration:none">อ่านรายละเอียด ›</a><br>'
+      + '<a href="https://www.google.com/maps/search/?api=1&query=' + q + '" target="_blank" rel="noopener" style="color:#2c7cb0;text-decoration:none">เปิดใน Google Maps ↗</a>'
+      + '</div>';
+
+    var line = new google.maps.Polyline({
+      path: path, map: gmap,
+      strokeColor: col, strokeOpacity: 0.22, strokeWeight: 6,
+      icons: [{
+        icon: { path: 'M 0,-1 0,1', strokeOpacity: 1, strokeColor: col, scale: 4 },
+        offset: '0', repeat: '16px'
+      }]
+    });
+    line.addListener('click', function(evt){
+      infoWin.setContent(popup);
+      infoWin.setPosition(evt.latLng);
+      infoWin.open(gmap);
+    });
+
+    var pin = new google.maps.Marker({
+      position: mid, map: gmap, title: f.name,
+      icon: { path: google.maps.SymbolPath.CIRCLE, scale: 11,
+              fillColor: col, fillOpacity: 1,
+              strokeColor: '#ffffff', strokeWeight: 2 },
+      label: { text: String(f.id), color: '#ffffff', fontSize: '10px', fontWeight: '700' }
+    });
+    pin.addListener('click', function(){
+      infoWin.setContent(popup);
+      infoWin.open(gmap, pin);
+    });
+
+    var b = new google.maps.LatLngBounds();
+    path.forEach(function(p){ b.extend(p); });
+    gLines[f.id] = { line: line, pin: pin, bounds: b, color: col };
+  });
+
+  renderMapList();
+  google.maps.event.trigger(gmap, 'resize');
+}
+
+window.initMap = initMap;
+window.gm_authFailure = function(){
+  var el = document.getElementById('mapFall');
+  if(el) el.classList.add('on');
+};
+
+/* =========================================================
+   UI
+   ========================================================= */
+document.addEventListener('DOMContentLoaded', function(){
+
+  var topbar = document.getElementById('topbar');
+  var navLinks = document.querySelectorAll('#tbNav a');
+  var sections = ['b1','b2','b3','b4','b5','b6'].map(function(id){ return document.getElementById(id); });
+
+  function onScroll(){
+    var y = window.scrollY;
+    topbar.classList.toggle('scrolled', y > 8);
+    document.getElementById('top').classList.toggle('on', y > 520);
+    var cur = '';
+    sections.forEach(function(s){ if(s && y + 130 >= s.offsetTop) cur = s.id; });
+    navLinks.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href') === '#' + cur); });
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+
+  document.getElementById('top').addEventListener('click', function(){
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  /* ---- แอกคอร์เดียน 16 รอยเลื่อน ---- */
+  var accList = document.getElementById('accList');
+  var fCount  = document.getElementById('fCount');
+  var fSearch = document.getElementById('fSearch');
+  var fClear  = document.getElementById('fClear');
+  var chips   = document.querySelectorAll('.chip[data-f]');
+  var activeF = 'all';
+
+  function accHtml(f){
+    return '<div class="acc ' + (f.risk==='high'?'hi':'') + '" data-id="' + f.id + '">'
+      + '<div class="acc-h">'
+      +   '<span class="acc-num">' + f.id + '</span>'
+      +   '<span class="acc-tt"><b>' + f.name + '</b><span>' + f.en + ' · ' + f.provinces + '</span></span>'
+      +   '<span class="acc-risk">' + riskText(f) + '</span>'
+      +   '<span class="acc-ch">▾</span>'
+      + '</div>'
+      + '<div class="acc-b"><div class="acc-in">'
+      +   '<dl>'
+      +     '<dt>ภูมิภาค</dt><dd>' + regionText(f.region) + '</dd>'
+      +     '<dt>ทิศทางวางตัว</dt><dd>' + f.trend + '</dd>'
+      +     '<dt>ความยาว</dt><dd>' + f.len + '</dd>'
+      +     '<dt>จังหวัดที่พาดผ่าน</dt><dd>' + f.provinces + '</dd>'
+      +     '<dt>การเคลื่อนตัว</dt><dd>' + f.sense + '</dd>'
+      +     '<dt>ระดับความเสี่ยง</dt><dd>' + riskText(f) + '</dd>'
+      +   '</dl>'
+      +   '<h6>ลักษณะและความสำคัญ</h6><p>' + f.desc + '</p>'
+      +   '<h6>เหตุการณ์แผ่นดินไหวที่เกี่ยวข้อง</h6>'
+      +   '<div class="evbox">' + f.event + '</div>'
+      +   '<div class="acts">'
+      +     '<button class="mbtn" data-detail="' + f.id + '">เปิดรายละเอียดเต็ม</button>'
+      +     '<a class="mbtn g" href="https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(f.gmap) + '" target="_blank" rel="noopener">เปิดใน Google Maps</a>'
+      +     '<button class="mbtn g" data-locate="' + f.id + '">ดูบนแผนที่</button>'
+      +   '</div>'
+      + '</div></div></div>';
+  }
+
+  function buildAcc(list){
+    if(!list.length){
+      accList.innerHTML = '<div style="text-align:center;padding:40px;color:#7b8b93">ไม่พบรอยเลื่อนที่ตรงกับคำค้นหา ลองเปลี่ยนคำค้นหาดูนะครับ</div>';
+      fCount.textContent = '';
+      return;
+    }
+    accList.innerHTML = list.map(accHtml).join('');
+    fCount.textContent = 'แสดง ' + list.length + ' จาก 16 กลุ่มรอยเลื่อน';
+
+    var hs = accList.querySelectorAll('.acc-h');
+    for(var i=0;i<hs.length;i++){
+      hs[i].addEventListener('click', function(){
+        var card = this.parentNode;
+        var isOpen = card.classList.contains('open');
+        var all = accList.querySelectorAll('.acc');
+        for(var k=0;k<all.length;k++){ all[k].classList.remove('open'); }
+        if(!isOpen) card.classList.add('open');
+      });
+    }
+    var ds = accList.querySelectorAll('[data-detail]');
+    for(var d=0;d<ds.length;d++){
+      ds[d].addEventListener('click', function(e){
+        e.stopPropagation(); openFault(parseInt(this.getAttribute('data-detail'),10));
+      });
+    }
+    var ls = accList.querySelectorAll('[data-locate]');
+    for(var j=0;j<ls.length;j++){
+      ls[j].addEventListener('click', function(e){
+        e.stopPropagation();
+        var id = parseInt(this.getAttribute('data-locate'),10);
+        document.getElementById('b5').scrollIntoView({behavior:'smooth'});
+        setTimeout(function(){ focusFault(id); }, 700);
+      });
+    }
+  }
+
+  function apply(){
+    var q = fSearch.value.trim().toLowerCase();
+    fClear.classList.toggle('on', q.length > 0);
+    buildAcc(FAULTS.filter(function(f){
+      var okF = (activeF === 'all') || (f.region === activeF);
+      var okT = !q || f.name.toLowerCase().indexOf(q)>-1 || f.en.toLowerCase().indexOf(q)>-1
+        || f.provinces.toLowerCase().indexOf(q)>-1 || f.trend.toLowerCase().indexOf(q)>-1;
+      return okF && okT;
+    }));
+  }
+  fSearch.addEventListener('input', apply);
+  fClear.addEventListener('click', function(){ fSearch.value=''; apply(); });
+  for(var c=0;c<chips.length;c++){
+    chips[c].addEventListener('click', function(){
+      for(var k=0;k<chips.length;k++){ chips[k].classList.remove('on'); }
+      this.classList.add('on');
+      activeF = this.getAttribute('data-f');
+      apply();
+    });
+  }
+  document.getElementById('closeAll').addEventListener('click', function(){
+    var all = accList.querySelectorAll('.acc');
+    for(var i=0;i<all.length;i++){ all[i].classList.remove('open'); }
+    document.getElementById('b4').scrollIntoView({behavior:'smooth'});
+  });
+  buildAcc(FAULTS);
+
+  /* ---- แอกคอร์เดียนเหตุการณ์ ---- */
+  var evList = document.getElementById('evList');
+  evList.innerHTML = EVENTS.map(function(e){
+    return '<div class="evc" data-ev="' + e.id + '">'
+      + '<div class="evc-h">'
+      +   '<span class="evc-tt"><b>' + e.title + '</b><span>' + e.sub + '</span></span>'
+      +   '<span class="evc-ch">▾</span>'
+      + '</div>'
+      + '<div class="evc-b"><div class="evc-in">'
+      +   '<span class="flag">เหตุการณ์จากรอยเลื่อน</span>'
+      +   e.body
+      + '</div></div></div>';
+  }).join('');
+
+  var evHeads = evList.querySelectorAll('.evc-h');
+  for(var h=0;h<evHeads.length;h++){
+    evHeads[h].addEventListener('click', function(){
+      var card = this.parentNode;
+      var isOpen = card.classList.contains('open');
+      var all = evList.querySelectorAll('.evc');
+      for(var k=0;k<all.length;k++){ all[k].classList.remove('open'); }
+      if(!isOpen) card.classList.add('open');
+    });
+  }
+
+  /* ---- Modal ---- */
+  var mBack  = document.getElementById('mBack');
+  var mTitle = document.getElementById('mTitle');
+  var mEn    = document.getElementById('mEn');
+  var mBody  = document.getElementById('mBody');
+
+  window.openFault = function(id){
+    var f = findFault(id); if(!f) return;
+    mTitle.textContent = f.name;
+    mEn.textContent = f.en;
+    mBody.innerHTML =
+      '<h4>ข้อมูลทั่วไป</h4>'
+      + '<div class="evbox" style="margin-bottom:12px"><b>ภูมิภาค:</b> ' + regionText(f.region)
+      + ' &nbsp;·&nbsp; <b>ระดับความเสี่ยง:</b> ' + riskText(f) + '</div>'
+      + '<p><b>ทิศทางวางตัว:</b> ' + f.trend + '</p>'
+      + '<p><b>ความยาว:</b> ' + f.len + '</p>'
+      + '<p><b>จังหวัดที่พาดผ่าน:</b> ' + f.provinces + '</p>'
+      + '<p><b>การเคลื่อนตัว:</b> ' + f.sense + '</p>'
+      + '<h4>ลักษณะและความสำคัญ</h4><p>' + f.desc + '</p>'
+      + '<h4>เหตุการณ์แผ่นดินไหวที่เกี่ยวข้อง</h4><div class="evbox">' + f.event + '</div>'
+      + '<div class="acts"><a class="mbtn" href="https://www.google.com/maps/search/?api=1&query='
+      + encodeURIComponent(f.gmap) + '" target="_blank" rel="noopener">เปิดตำแหน่งใน Google Maps</a></div>';
+    mBack.classList.add('on');
+    document.body.style.overflow = 'hidden';
+  };
+  function closeM(){ mBack.classList.remove('on'); document.body.style.overflow=''; }
+  document.getElementById('mClose').addEventListener('click', closeM);
+  mBack.addEventListener('click', function(ev){ if(ev.target===mBack) closeM(); });
+  document.addEventListener('keydown', function(ev){ if(ev.key==='Escape') closeM(); });
+
+  renderMapList();
+  var mSearch = document.getElementById('mSearch');
+  var mchips  = document.querySelectorAll('.mchip');
+  if(mSearch) mSearch.addEventListener('input', renderMapList);
+  for(var m=0;m<mchips.length;m++){
+    mchips[m].addEventListener('click', function(){
+      for(var k=0;k<mchips.length;k++){ mchips[k].classList.remove('on'); }
+      this.classList.add('on');
+      mFilter = this.getAttribute('data-m');
+      renderMapList();
+    });
+  }
+
+  setTimeout(function(){
+    if(!gmap){
+      var el = document.getElementById('mapFall');
+      if(el) el.classList.add('on');
+    }
+  }, 10000);
+});
+
+function renderMapList(){
+  var el = document.getElementById('faultListMap');
+  if(!el) return;
+  var box = document.getElementById('mSearch');
+  var q = box ? box.value.trim().toLowerCase() : '';
+  var html = '';
+
+  FAULTS.forEach(function(f){
+    var okF = (mFilter==='all') || (mFilter==='high' && f.risk==='high') || (mFilter==='medium' && f.risk==='medium');
+    var okT = !q || f.name.toLowerCase().indexOf(q)>-1 || f.en.toLowerCase().indexOf(q)>-1 || f.provinces.toLowerCase().indexOf(q)>-1;
+    if(!(okF && okT)) return;
+    html += '<div class="mitem ' + (f.risk==='high'?'hi':'') + '" data-id="' + f.id + '">'
+      + '<span class="bar"></span>'
+      + '<span class="tx"><b>' + f.name + '</b><span>' + f.en + ' · ' + f.provinces + '</span></span>'
+      + '<span class="dt"></span></div>';
+  });
+
+  el.innerHTML = html || '<p style="padding:14px;font-size:.8rem;color:#7b8b93">ไม่พบรายการที่ตรงกับคำค้นหา</p>';
+
+  var items = el.querySelectorAll('.mitem');
+  for(var i=0;i<items.length;i++){
+    items[i].addEventListener('click', function(){
+      focusFault(parseInt(this.getAttribute('data-id'),10));
+    });
+  }
+}
+
+function focusFault(id){
+  var L = gLines[id];
+  if(!L || !gmap) return;
+  gmap.fitBounds(L.bounds, { top: 60, right: 60, bottom: 60, left: 60 });
+  if(gmap.getZoom() > 11) gmap.setZoom(11);
+  new google.maps.InfoWindow({
+    content: '<div style="font-family:\'IBM Plex Sans Thai\',sans-serif;font-size:13px"><b>' + L.pin.getTitle() + '</b></div>'
+  }).open(gmap, L.pin);
+
+  var items = document.querySelectorAll('#faultListMap .mitem');
+  for(var i=0;i<items.length;i++){
+    var on = parseInt(items[i].getAttribute('data-id'),10) === id;
+    items[i].classList.toggle('on', on);
+    if(on) items[i].scrollIntoView({block:'nearest',behavior:'smooth'});
+  }
+}
+</script>
+
+<script async
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5l0aPyGFqiqY5DpqOYf-8YhN_eYHHobU&callback=initMap&loading=async&language=th&region=TH">
+</script>
+
+</body>
+</html>
